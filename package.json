@@ -4,6 +4,8 @@
   "main": "src/main.js",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "axios": "^0.18.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5"
