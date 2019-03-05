@@ -1,3 +1,7 @@
 .navbar {
     margin-bottom: 5px;
 }
+
+.navbar .brand {
+    margin-left: 150px;
+}

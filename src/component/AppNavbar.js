@@ -9,7 +9,7 @@ export class AppNavbar extends Component {
         return (
             <AppBar className="navbar" position="fixed" color="primary">
                 <Toolbar>
-                    <Typography variant="h6" color="inherit">
+                    <Typography className="brand" variant="h6" color="inherit">
                         App Store
                     </Typography>
                 </Toolbar>
