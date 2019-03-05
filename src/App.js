@@ -9,9 +9,12 @@ class App extends Component {
     return (
       <div>
           <AppNavbar />
-          {data.map((item) => {
-            return <LinuxApp data={item} />          
-          })}
+
+          <div className="app-grid">
+            {data.map((item) => {
+              return <LinuxApp data={item} />          
+            })}
+          </div>
       </div>
     );
   }
