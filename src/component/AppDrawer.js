@@ -4,57 +4,45 @@ import { ListItem, List, ListItemText, Icon } from '@material-ui/core';
 import '../css/AppDrawer.css';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 
+const categories = [
+    { id: 1, class: 'fas fa-home', name: 'Home' },
+    { id: 2, class: 'fas fa-trophy', name: 'Ranking' },
+    { id: 3, class: 'fas fa-comment-alt', name: 'Chat' },
+    { id: 4, class: 'fas fa-music', name: 'Music' },
+    { id: 5, class: 'fas fa-video', name: 'Video' },
+    { id: 6, class: 'fas fa-gamepad', name: 'Game' },
+    { id: 7, class: 'fas fa-book', name: 'Reading' }]
+
+function MenuItemList() {
+    const listItems = categories.map((item) =>
+        <ListItem button key={item.id.toString()}>
+            <Icon className={item.class} />
+            <ListItemText primary={item.name}></ListItemText>
+        </ListItem>
+    )
+    return (
+        <List>
+            {listItems}
+        </List>
+    )
+}
+
 export class AppDrawer extends Component {
 
     componentDidMount() {
         loadCSS(
-          'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-          document.querySelector('#insertion-point-jss'),
+            'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
+            document.querySelector('#insertion-point-jss'),
         );
-    }   
+    }
 
     render() {
         return (
             <React.Fragment>
                 <Drawer
-                variant="permanent">
-                <List>
-                    <ListItem button key={0}>
-                    <Icon className='fas fa-home' />
-                        <ListItemText primary={"Home"}></ListItemText>
-                    </ListItem>
-
-                    <ListItem button key={1}>
-                    <Icon className='fas fa-trophy' />
-                        <ListItemText primary={"Ranking"}></ListItemText>
-                    </ListItem>
-
-                    <ListItem button key={2}>
-                    <Icon className='fas fa-comment-alt' />
-                        <ListItemText primary={"Chat"}></ListItemText>
-                    </ListItem>
-
-                    <ListItem button key={3}>
-                    <Icon className='fas fa-music' />
-                        <ListItemText primary={"Music"}></ListItemText>
-                    </ListItem>
-
-                    <ListItem button key={4}>
-                    <Icon className='fas fa-video' />
-                        <ListItemText primary={"Video"}></ListItemText>
-                    </ListItem>
-
-                    <ListItem button key={5}>
-                    <Icon className='fas fa-gamepad' />
-                        <ListItemText primary={"Game"}></ListItemText>
-                    </ListItem>
-
-                    <ListItem button key={6}>
-                    <Icon className='fas fa-book' />
-                        <ListItemText primary={"Reading"}></ListItemText>
-                    </ListItem>
-                </List>
-            </Drawer>
+                    variant="permanent">
+                    <MenuItemList />
+                </Drawer>
             </React.Fragment>
         )
     }
