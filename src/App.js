@@ -5,11 +5,13 @@ import { AppNavbar } from './component/AppNavbar.js'
 import { AppDrawer } from './component/AppDrawer.js'
 import data from './data/flathubs.json'
 import { AppFooter } from './component/AppFooter';
+import { CssBaseline } from '@material-ui/core';
 
 class App extends Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
+        <CssBaseline />
           <AppNavbar />
           <AppDrawer />
           <div className="app-grid">
@@ -18,7 +20,7 @@ class App extends Component {
             })}
           </div>
           <AppFooter />
-      </div>
+      </React.Fragment>
     );
   }
 }
