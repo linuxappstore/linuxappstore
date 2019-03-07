@@ -4,6 +4,7 @@ import { LinuxApp } from './component/LinuxApp.js'
 import { AppNavbar } from './component/AppNavbar.js'
 import { AppDrawer } from './component/AppDrawer.js'
 import data from './data/flathubs.json'
+import { AppFooter } from './component/AppFooter';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
               return <LinuxApp data={item} />          
             })}
           </div>
+          <AppFooter />
       </div>
     );
   }
