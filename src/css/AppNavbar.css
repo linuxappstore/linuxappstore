@@ -2,6 +2,9 @@
     margin-bottom: 5px;
 }
 
-.navbar .brand {
-    margin-left: 150px;
+.toolbar {
+    margin-left: 146px;
+}
+.logo {
+    margin: 0px 5px 0px 5px;
 }
