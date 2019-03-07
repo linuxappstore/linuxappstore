@@ -1,5 +1,7 @@
+$grid-cell-width: 128px;
+
 .app-item {
-    width: 128px;
+    width: $grid-cell-width;
     display: inline-block;
 }
 
@@ -19,8 +21,8 @@
 }
 
 .card {
-    width: 128px;
-    height: 128px;
+    width: $grid-cell-width;
+    height: $grid-cell-width;
     display: inline-block;
     margin: 1px;
 }

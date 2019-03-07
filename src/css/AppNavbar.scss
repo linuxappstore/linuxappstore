@@ -1,10 +1,13 @@
+$drawer-width: 146px;
+
 .navbar {
     margin-bottom: 5px;
 }
 
 .toolbar {
-    margin-left: 146px;
+    margin-left: $drawer-width;
 }
+
 .logo {
     margin: 0px 5px 0px 5px;
 }

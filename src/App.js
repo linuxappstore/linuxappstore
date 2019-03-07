@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './App.css'
+import './App.scss'
 import { LinuxApp } from './component/LinuxApp.js'
 import { AppNavbar } from './component/AppNavbar.js'
 import { AppDrawer } from './component/AppDrawer.js'

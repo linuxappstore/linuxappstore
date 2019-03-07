@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import { ListItem, List, ListItemText } from '@material-ui/core';
-import '../css/AppDrawer.css';
+import '../css/AppDrawer.scss';
 
 const categories = [
     { id: 1, src: './images/appimage.png', name: 'AppImage' },
