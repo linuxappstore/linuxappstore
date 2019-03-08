@@ -3,7 +3,7 @@ import './App.scss'
 import { LinuxApp } from './component/LinuxApp.js'
 import { AppNavbar } from './component/AppNavbar.js'
 import { AppDrawer } from './component/AppDrawer.js'
-import data from './data/flathubs.json'
+import data from './data/flatpaks.json'
 import { AppFooter } from './component/AppFooter';
 import { CssBaseline } from '@material-ui/core';
 
