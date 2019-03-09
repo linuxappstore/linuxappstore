@@ -6,6 +6,7 @@
   "homepage": "http://nshusa.github.io/linux-app-store",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "fg-loadcss": "^2.1.0",
     "node-sass": "^4.11.0",
