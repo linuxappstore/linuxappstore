@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "src/main.js",
   "private": true,
+  "homepage": "http://nshusa.github.io/linux-app-store",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "axios": "^0.18.0",
@@ -17,7 +18,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron .",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -29,6 +32,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "electron": "^4.0.7"
+    "electron": "^4.0.7",
+    "gh-pages": "^2.0.1"
   }
 }
