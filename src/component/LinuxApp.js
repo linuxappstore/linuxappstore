@@ -10,7 +10,13 @@ const FLATHUB_BASE_URL = 'https://flathub.org'
 export class LinuxApp extends Component {
 
     getDesktopImage(item) {
-        return `${FLATHUB_BASE_URL}${item.iconDesktopUrl}`
+        let url = item.iconDesktopUrl.toString();
+
+        if (!url.startsWith("https")) {
+            url = `${FLATHUB_BASE_URL}${item.iconDesktopUrl}`;
+        }
+
+        return url;
     }
 
     getMobileImage(item) {
