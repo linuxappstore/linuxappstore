@@ -198,6 +198,7 @@ class MiniDrawer extends React.Component {
                   input: classes.inputInput,
                 }}
                 onChange={this.onSearch}
+                autoFocus="true"
               />
             </div>
           </Toolbar>
