@@ -15,7 +15,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import data from '../data/flatpaks.json'
+import flatpakData from '../data/flatpaks.json'
 import LinuxApp from './LinuxApp.js'
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -24,9 +24,9 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 const drawerWidth = 240;
 
 const categories = [
-  { id: 1, src: './images/appimage.png', name: 'AppImage' },
-  { id: 2, src: './images/flatpak.png', name: 'Flatpak' },
-  { id: 3, src: './images/snap.png', name: 'Snap' }
+  { id: 1, src: './images/appimage.png', name: 'AppImage', data: [] },
+  { id: 2, src: './images/flatpak.png', name: 'Flatpak', data: flatpakData },
+  { id: 3, src: './images/snap.png', name: 'Snap', data: [] }
 ]
 
 const styles = theme => ({
@@ -136,6 +136,7 @@ const styles = theme => ({
 class MiniDrawer extends React.Component {
   state = {
     open: false,
+    data: flatpakData
   };
 
   handleDrawerOpen = () => {
@@ -144,6 +145,10 @@ class MiniDrawer extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  };
+
+  onCategoryClick = (type) => {
+    this.setState({data: categories[type - 1].data})
   };
 
   render() {
@@ -209,7 +214,7 @@ class MiniDrawer extends React.Component {
           <Divider />
           <List>
             {categories.map((item) =>
-              <ListItem button key={item.name}>
+              <ListItem button key={item.name} onClick={() => this.onCategoryClick(item.id)}>
                 <img className="icon" src={item.src} alt={item.name} style={{ width: 24, marginRight: 15 }} />
                 <ListItemText primary={item.name}></ListItemText>
               </ListItem>
@@ -219,7 +224,7 @@ class MiniDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <div className="app-grid">
-            {data.map((item) => {
+            {this.state.data.map((item) => {
               return <LinuxApp data={item} />
             })}
           </div>
