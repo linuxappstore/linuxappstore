@@ -12,7 +12,7 @@ const categories = [
 function MenuItemList() {
     const listItems = categories.map((item) =>
         <ListItem className="list-item" button key={item.id.toString()}>
-            <img className="icon" src={item.src} />
+            <img className="icon" src={item.src} alt={item.name} />
             <ListItemText primary={item.name}></ListItemText>
         </ListItem>
     )
@@ -28,7 +28,8 @@ export class AppDrawer extends Component {
         return (
             <React.Fragment>
                 <Drawer
-                    variant="permanent">
+                    variant="permanent"
+                    className="drawer">
                     <MenuItemList />
                 </Drawer>
             </React.Fragment>

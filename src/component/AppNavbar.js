@@ -9,7 +9,7 @@ export class AppNavbar extends Component {
         return (
             <AppBar className="navbar" position="fixed" color="primary">
                 <Toolbar className="toolbar">
-                  <img className="logo" src={"./images/app_store.png"} style={{width: "32px"}} />
+                  <img className="logo" src={"./images/app_store.png"} alt={"Logo"} style={{width: "32px"}} />
                     <Typography className="brand" variant="h6" color="inherit">
                         App Store
                     </Typography>

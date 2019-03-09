@@ -32,13 +32,13 @@ export class LinuxApp extends Component {
         return (
             <Card className="card">
                 <CardActionArea>
-                    <a className="link" href={this.getUrl(data)} target="_blank">
+                    <a className="link" href={this.getUrl(data)} target="_blank" rel={"noopener noreferrer"}>
                         <Typography className="center title" color="textSecondary" gutterBottom>
                             {data.name}
                         </Typography>
 
                         <CardContent>
-                            <img className="icon center" src={this.getDesktopImage(data)} />
+                            <img className="icon center" src={this.getDesktopImage(data)} alt={data.name} />
                         </CardContent>
                     </a>
                 </CardActionArea>
