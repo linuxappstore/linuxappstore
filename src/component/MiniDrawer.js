@@ -136,7 +136,8 @@ const styles = theme => ({
 class MiniDrawer extends React.Component {
   state = {
     open: false,
-    data: flatpakData
+    data: flatpakData,
+    search: ''
   };
 
   handleDrawerOpen = () => {
@@ -148,11 +149,19 @@ class MiniDrawer extends React.Component {
   };
 
   onCategoryClick = (type) => {
-    this.setState({data: categories[type - 1].data})
+    this.setState({ data: categories[type - 1].data })
   };
+
+  onSearch = e =>  {
+    this.setState({ search: e.target.value })
+  }
 
   render() {
     const { classes, theme } = this.props;
+    const { search } = this.state;
+    const filteredApps = this.state.data.filter(item => {
+      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
 
     return (
       <div className={classes.root}>
@@ -188,6 +197,7 @@ class MiniDrawer extends React.Component {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                onChange={this.onSearch}
               />
             </div>
           </Toolbar>
@@ -224,7 +234,7 @@ class MiniDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <div className="app-grid">
-            {this.state.data.map((item) => {
+            {filteredApps.map((item) => {
               return <LinuxApp data={item} />
             })}
           </div>
