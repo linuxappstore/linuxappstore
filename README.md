@@ -4,7 +4,7 @@ Is a universal app store for Linux.
 View the project live [here](https://nshusa.github.io/linux-app-store/)
 
 ### The Problem
-* Flatpak, Snap and AppImage has their own app store which can only browse their own format.
+* Flatpak, Snap and AppImage have their own app store which can only browse their own format.
     * Flatpak has [FlatHub](https://flathub.org/home)
     * Snap has [SnapCraft](https://snapcraft.io/store)
     * AppImage has [AppImageHub](https://appimage.github.io/apps/)
