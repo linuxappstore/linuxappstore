@@ -15,7 +15,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import flatpakData from '../data/flatpaks.json'
 import LinuxApp from './LinuxApp.js'
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -23,10 +22,13 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const drawerWidth = 240;
 
+const flatpakApi = 'https://localhost:44369/api/apps?type=2'
+const snapApi = 'https://localhost:44369/api/apps?type=3'
+
 const categories = [
   { id: 1, src: './images/appimage.png', name: 'AppImage', data: [] },
-  { id: 2, src: './images/flatpak.png', name: 'Flatpak', data: flatpakData },
-  { id: 3, src: './images/snap.png', name: 'Snap', data: [] }
+  { id: 2, src: './images/flatpak.png', name: 'Flatpak', data: flatpakApi },
+  { id: 3, src: './images/snap.png', name: 'Snap', data: snapApi }
 ]
 
 const styles = theme => ({
@@ -114,7 +116,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3
   },
   inputRoot: {
     color: 'inherit',
@@ -130,14 +132,15 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
-  },
+  }
 });
 
 class MiniDrawer extends React.Component {
   state = {
     open: false,
-    data: flatpakData,
-    search: ''
+    data: [],
+    search: '',
+    appType: 2
   };
 
   handleDrawerOpen = () => {
@@ -149,7 +152,16 @@ class MiniDrawer extends React.Component {
   };
 
   onCategoryClick = (type) => {
-    this.setState({ data: categories[type - 1].data })
+    let dataSource = categories[type - 1].data;
+
+    fetch(dataSource)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      this.setState({ data: responseJson })
+    })
+
+    //this.setState({ data: categories[type - 1].data })
   };
 
   onSearch = e =>  {
@@ -198,7 +210,7 @@ class MiniDrawer extends React.Component {
                   input: classes.inputInput,
                 }}
                 onChange={this.onSearch}
-                autoFocus="true"
+                autoFocus={true}
               />
             </div>
           </Toolbar>
@@ -234,10 +246,10 @@ class MiniDrawer extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <div className="app-grid">
-            {filteredApps.map((item) => {
-              return <LinuxApp data={item} />
-            })}
+          <div style={{maxHeight: '100%', overflow: 'hidden'}}>
+          {filteredApps.map((item) => {
+                return <LinuxApp data={item} />
+              })}
           </div>
         </main>
       </div>

@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
 
-const flatHubBaseUrl = 'https://flathub.org'
 const gridCellWidth = 128
 
 const styles = theme => ({
@@ -41,21 +40,15 @@ const styles = theme => ({
 class LinuxApp extends Component {
 
     getDesktopImage(item) {
-        let url = item.iconDesktopUrl.toString();
+        let url = item.icon.toString();
 
         if (!url.startsWith("https")) {
-            url = `${flatHubBaseUrl}${item.iconDesktopUrl}`;
+            if (item.type === 3) {
+                return "./images/ubuntu_icon.png"
+            }
         }
 
         return url;
-    }
-
-    getMobileImage(item) {
-        return `${flatHubBaseUrl}${item.iconMobileUrl}`
-    }
-
-    getUrl(item) {
-        return `${flatHubBaseUrl}/apps/details/${item.flatpakAppId}`
     }
 
     render() {
@@ -63,7 +56,7 @@ class LinuxApp extends Component {
         return (
             <Card className={classNames(classes.card)}>
                 <CardActionArea>
-                    <a className={classNames(classes.link)} href={this.getUrl(data)} target="_blank" rel={"noopener noreferrer"}>
+                    <a className={classNames(classes.link)} href={data.src} target="_blank" rel={"noopener noreferrer"}>
                         <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
                             {data.name}
                         </Typography>
