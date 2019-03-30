@@ -15,20 +15,22 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import LinuxApp from './LinuxApp.js'
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import AppHorizontalList from './AppHorizontalList.js';
+import LinuxApp from './LinuxApp.js';
+import { Grid } from '@material-ui/core';
+import { Collection } from 'react-virtualized';
 
 const drawerWidth = 240;
 
-const flatpakApi = 'https://localhost:44369/api/apps?type=2'
-const snapApi = 'https://localhost:44369/api/apps?type=3'
+const baseUrl = 'http://linuxappstore.xyz'
 
 const categories = [
-  { id: 1, src: './images/appimage.png', name: 'AppImage', data: [] },
-  { id: 2, src: './images/flatpak.png', name: 'Flatpak', data: flatpakApi },
-  { id: 3, src: './images/snap.png', name: 'Snap', data: snapApi }
+  { id: 1, src: './images/appimage.png', name: 'AppImage' },
+  { id: 2, src: './images/flatpak.png', name: 'Flatpak' },
+  { id: 3, src: './images/snap.png', name: 'Snap' }
 ]
 
 const styles = theme => ({
@@ -116,7 +118,8 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3
+    paddingLeft: 5,
+    paddingTop: 69
   },
   inputRoot: {
     color: 'inherit',
@@ -132,15 +135,25 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
   }
 });
 
 class MiniDrawer extends React.Component {
   state = {
     open: false,
-    data: [],
+    apps: [],
+    filteredApps: [],
+    recentlyAdded: [],
+    recentlyUpdated: [],
     search: '',
-    appType: 2
+    appType: 2,
+    contentWidth: 0,
+    contentHeight: 0
   };
 
   handleDrawerOpen = () => {
@@ -152,28 +165,59 @@ class MiniDrawer extends React.Component {
   };
 
   onCategoryClick = (type) => {
-    let dataSource = categories[type - 1].data;
-
-    fetch(dataSource)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-      this.setState({ data: responseJson })
-    })
-
-    //this.setState({ data: categories[type - 1].data })
+    this.setState({ appType: type })
+    this.populateData(type)
   };
 
-  onSearch = e =>  {
-    this.setState({ search: e.target.value })
+  populateData(type) {
+    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=25`
+    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=25`
+    let apps = `${baseUrl}/api/apps?type=${type}`
+
+    fetch(recentlyAdded)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ recentlyAdded: responseJson })
+      })
+
+    fetch(recentlyUpdated)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ recentlyUpdated: responseJson })
+      })
+
+    fetch(apps)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ apps: responseJson, filteredApps: [], search: '' })
+      })
+  }
+
+  onSearch = e => {
+    const filteredApps = this.state.apps.filter(item => {
+      return item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
+    });
+
+    this.setState({ search: e.target.value, filteredApps: filteredApps })
+  }
+
+  componentDidMount() {
+    const contentWidth = this.contentElement.clientWidth;
+    const contentHeight = this.contentElement.clientHeight;
+    this.setState({ contentWidth: contentWidth, contentHeight: contentHeight });
+
+    const recentlyAddedHeight = this.recentlyAddedElement.clientHeight;
+
+    console.log(`content width: ${contentWidth} height: ${contentHeight} recentlyAddedHeight: ${recentlyAddedHeight}`);
+
+    if (this.state.apps.length === 0) {
+      this.populateData(this.state.appType)
+    }
   }
 
   render() {
     const { classes, theme } = this.props;
-    const { search } = this.state;
-    const filteredApps = this.state.data.filter(item => {
-      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-    });
+    const filteredApps = this.state.filteredApps.length === 0 ? this.state.apps : this.state.filteredApps
 
     return (
       <div className={classes.root}>
@@ -183,6 +227,7 @@ class MiniDrawer extends React.Component {
           className={classNames(classes.appBar, {
             [classes.appBarShift]: this.state.open,
           })}
+          ref={(appBarElement) => this.appBarElement = appBarElement}
         >
           <Toolbar disableGutters={!this.state.open}>
             <IconButton
@@ -244,17 +289,71 @@ class MiniDrawer extends React.Component {
             )}
           </List>
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <div style={{maxHeight: '100%', overflow: 'hidden'}}>
-          {filteredApps.map((item) => {
-                return <LinuxApp data={item} />
-              })}
-          </div>
+        <main className={classes.content} style={{height: '100%'}} ref={(contentElement) => this.contentElement = contentElement}>
+          <Grid container spacing={24}>
+            <Grid item xs={12} style={{paddingBottom: 5}} ref={(recentlyAddedElement) => this.recentlyAddedElement = recentlyAddedElement}>
+              <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Added</h3>
+              <AppHorizontalList items={this.state.recentlyAdded} width={this.state.contentWidth - 25} />
+            </Grid>
+
+            <Grid item xs={12} style={{paddingBottom: 5}}>
+              <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Updated</h3>
+              <AppHorizontalList items={this.state.recentlyUpdated} width={this.state.contentWidth - 25} />
+            </Grid>
+
+            <Grid item xs={12} style={{paddingBottom: 5, marginRight: 5}}>
+            <h3 style={{marginTop: 0, marginBottom: 5}}>{categories[this.state.appType - 1].name}'s</h3>
+
+            <Collection 
+                  cellCount={filteredApps.length}
+                  cellRenderer={this.cellRenderer.bind(this)}
+                  cellSizeAndPositionGetter={this.cellSizeAndPositionGetter.bind(this)}
+                  height={this.state.contentHeight - 416 - 69 - 21 + 5}
+                  width={this.state.contentWidth - 25}              
+              />
+
+            </Grid>
+          </Grid>
         </main>
       </div>
     );
   }
+
+  cellRenderer ({ index, key, style }) {
+    let apps = this.state.filteredApps.length === 0 ? this.state.apps : this.state.filteredApps
+    return (
+      <div
+        key={key}
+        style={style}        
+      >
+
+      <LinuxApp data={apps[index]} style={{margin: 1}} />
+
+      </div>
+    )
+  }
+  
+  cellSizeAndPositionGetter ({ index }) {
+    let cellWidth = 129
+    let cellHeight = 129
+
+    let contentWidth = this.state.contentWidth
+    let cols = Math.floor(contentWidth / cellWidth)
+
+    let xMod = index % cols
+    let xPos = xMod * cellWidth
+
+    let row = Math.floor(index / cols)
+    let yPos = row * cellHeight
+  
+    return {
+      height: cellHeight,
+      width: cellWidth,
+      x: xPos,
+      y: yPos
+    }
+  }
+
 }
 
 MiniDrawer.propTypes = {

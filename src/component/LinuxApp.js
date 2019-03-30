@@ -51,12 +51,22 @@ class LinuxApp extends Component {
         return url;
     }
 
+    getSrc() {
+        const { data } = this.props
+
+        if (data.type === 2) {
+            return `http://${data.src}`
+        } else {
+            return data.src
+        }
+    }
+
     render() {
         const { data, classes } = this.props
         return (
             <Card className={classNames(classes.card)}>
                 <CardActionArea>
-                    <a className={classNames(classes.link)} href={data.src} target="_blank" rel={"noopener noreferrer"}>
+                    <a className={classNames(classes.link)} href={this.getSrc()} target="_blank" rel={"noopener noreferrer"}>
                         <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
                             {data.name}
                         </Typography>
