@@ -1,6 +1,8 @@
 # Linux App Store
 Is a universal app store for Linux.
 
+![https://i.imgur.com/MaFEmSP.png](https://i.imgur.com/MaFEmSP.png)
+
 View the project live [here](https://chadalen.github.io/linux-app-store/)
 
 ### The Problem
