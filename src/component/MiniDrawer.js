@@ -15,20 +15,21 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import LinuxApp from './LinuxApp.js'
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import AppHorizontalList from './AppHorizontalList.js';
+import LinuxApp from './LinuxApp.js';
+import { Grid } from '@material-ui/core';
 
 const drawerWidth = 240;
 
-const flatpakApi = 'https://localhost:44369/api/apps?type=2'
-const snapApi = 'https://localhost:44369/api/apps?type=3'
+const baseUrl = 'http://localhost:5000'
 
 const categories = [
-  { id: 1, src: './images/appimage.png', name: 'AppImage', data: [] },
-  { id: 2, src: './images/flatpak.png', name: 'Flatpak', data: flatpakApi },
-  { id: 3, src: './images/snap.png', name: 'Snap', data: snapApi }
+  { id: 1, src: './images/appimage.png', name: 'AppImage' },
+  { id: 2, src: './images/flatpak.png', name: 'Flatpak' },
+  { id: 3, src: './images/snap.png', name: 'Snap' }
 ]
 
 const styles = theme => ({
@@ -132,15 +133,23 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
   }
 });
 
 class MiniDrawer extends React.Component {
   state = {
     open: false,
-    data: [],
+    apps: [],
+    recentlyAdded: [],
+    recentlyUpdated: [],
     search: '',
-    appType: 2
+    appType: 2,
+    toolbarWidth: 0
   };
 
   handleDrawerOpen = () => {
@@ -152,26 +161,53 @@ class MiniDrawer extends React.Component {
   };
 
   onCategoryClick = (type) => {
-    let dataSource = categories[type - 1].data;
+    this.setState({appType: type})
 
-    fetch(dataSource)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-      this.setState({ data: responseJson })
-    })
+    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=25`
+    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=25`
+    let apps = `${baseUrl}/api/apps?type=${type}`
 
-    //this.setState({ data: categories[type - 1].data })
+    fetch(recentlyAdded)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ recentlyAdded: responseJson })
+      })
+
+    fetch(recentlyUpdated)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ recentlyUpdated: responseJson })
+      })
+
+    fetch(apps)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ apps: responseJson })
+      })
   };
 
-  onSearch = e =>  {
+  onSearch = e => {
     this.setState({ search: e.target.value })
+  }
+
+  componentDidMount() {
+    const toolbarWidth = this.divElement.clientWidth;
+    this.setState({ toolbarWidth: toolbarWidth });
+    console.log(`toolbar width: ${toolbarWidth}`);
   }
 
   render() {
     const { classes, theme } = this.props;
     const { search } = this.state;
-    const filteredApps = this.state.data.filter(item => {
+    const filteredApps = this.state.apps.filter(item => {
+      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+
+    const filteredRecentlyAdded = this.state.recentlyAdded.filter(item => {
+      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+
+    const filteredRecentlyUpdated = this.state.recentlyUpdated.filter(item => {
       return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
     });
 
@@ -245,8 +281,26 @@ class MiniDrawer extends React.Component {
           </List>
         </Drawer>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <div style={{maxHeight: '100%', overflow: 'hidden'}}>
+          <div className={classes.toolbar} ref={(divElement) => this.divElement = divElement} />
+
+          <Grid container spacing={24}>
+              <Grid item xs={12}>
+                  <p>test</p>
+              </Grid>
+
+              <Grid item xs={12}>
+                <p>test</p>
+              </Grid>
+          </Grid>
+
+          <h3>Recently Added</h3>
+          <AppHorizontalList items={filteredRecentlyAdded} width={this.state.toolbarWidth} />
+
+          <h3>Recently Updated</h3>
+          <AppHorizontalList items={filteredRecentlyUpdated} width={this.state.toolbarWidth} />
+
+          <h3>{categories[this.state.appType - 1].name}'s</h3>
+          <div style={{width: this.state.toolbarWidth, maxHeight: '100%', overflow: 'hidden'}}>
           {filteredApps.map((item) => {
                 return <LinuxApp data={item} />
               })}
