@@ -147,6 +147,7 @@ class MiniDrawer extends React.Component {
   state = {
     open: false,
     apps: [],
+    filteredApps: [],
     recentlyAdded: [],
     recentlyUpdated: [],
     search: '',
@@ -185,12 +186,16 @@ class MiniDrawer extends React.Component {
     fetch(apps)
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({ apps: responseJson })
+        this.setState({ apps: responseJson, filteredApps: [], search: '' })
       })
   };
 
   onSearch = e => {
-    this.setState({ search: e.target.value })
+    const filteredApps = this.state.apps.filter(item => {
+      return item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
+    });
+
+    this.setState({ search: e.target.value, filteredApps: filteredApps })
   }
 
   componentDidMount() {
@@ -205,18 +210,7 @@ class MiniDrawer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-    const { search } = this.state;
-    const filteredApps = this.state.apps.filter(item => {
-      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-    });
-
-    const filteredRecentlyAdded = this.state.recentlyAdded.filter(item => {
-      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-    });
-
-    const filteredRecentlyUpdated = this.state.recentlyUpdated.filter(item => {
-      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-    });
+    const filteredApps = this.state.filteredApps.length === 0 ? this.state.apps : this.state.filteredApps
 
     return (
       <div className={classes.root}>
@@ -292,19 +286,19 @@ class MiniDrawer extends React.Component {
           <Grid container spacing={24}>
             <Grid item xs={12} style={{paddingBottom: 5}} ref={(recentlyAddedElement) => this.recentlyAddedElement = recentlyAddedElement}>
               <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Added</h3>
-              <AppHorizontalList items={filteredRecentlyAdded} width={this.state.contentWidth - 25} />
+              <AppHorizontalList items={this.state.recentlyAdded} width={this.state.contentWidth - 25} />
             </Grid>
 
             <Grid item xs={12} style={{paddingBottom: 5}}>
               <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Updated</h3>
-              <AppHorizontalList items={filteredRecentlyUpdated} width={this.state.contentWidth - 25} />
+              <AppHorizontalList items={this.state.recentlyUpdated} width={this.state.contentWidth - 25} />
             </Grid>
 
             <Grid item xs={12} style={{paddingBottom: 5, marginRight: 5}}>
             <h3 style={{marginTop: 0, marginBottom: 5}}>{categories[this.state.appType - 1].name}'s</h3>
 
             <Collection 
-                  cellCount={this.state.apps.length}
+                  cellCount={filteredApps.length}
                   cellRenderer={this.cellRenderer.bind(this)}
                   cellSizeAndPositionGetter={this.cellSizeAndPositionGetter.bind(this)}
                   height={this.state.contentHeight - 416 - 69 - 21 + 5}
@@ -319,7 +313,7 @@ class MiniDrawer extends React.Component {
   }
 
   cellRenderer ({ index, key, style }) {
-    let apps = this.state.apps
+    let apps = this.state.filteredApps.length === 0 ? this.state.apps : this.state.filteredApps
     return (
       <div
         key={key}
