@@ -166,7 +166,10 @@ class MiniDrawer extends React.Component {
 
   onCategoryClick = (type) => {
     this.setState({ appType: type })
+    this.populateData(type)
+  };
 
+  populateData(type) {
     let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=25`
     let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=25`
     let apps = `${baseUrl}/api/apps?type=${type}`
@@ -188,7 +191,7 @@ class MiniDrawer extends React.Component {
       .then((responseJson) => {
         this.setState({ apps: responseJson, filteredApps: [], search: '' })
       })
-  };
+  }
 
   onSearch = e => {
     const filteredApps = this.state.apps.filter(item => {
@@ -206,6 +209,10 @@ class MiniDrawer extends React.Component {
     const recentlyAddedHeight = this.recentlyAddedElement.clientHeight;
 
     console.log(`content width: ${contentWidth} height: ${contentHeight} recentlyAddedHeight: ${recentlyAddedHeight}`);
+
+    if (this.state.apps.length === 0) {
+      this.populateData(this.state.appType)
+    }
   }
 
   render() {
