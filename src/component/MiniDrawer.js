@@ -117,7 +117,8 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3
+    paddingLeft: 5,
+    paddingTop: 69
   },
   inputRoot: {
     color: 'inherit',
@@ -149,7 +150,8 @@ class MiniDrawer extends React.Component {
     recentlyUpdated: [],
     search: '',
     appType: 2,
-    toolbarWidth: 0
+    contentWidth: 0,
+    contentHeight: 0
   };
 
   handleDrawerOpen = () => {
@@ -161,7 +163,7 @@ class MiniDrawer extends React.Component {
   };
 
   onCategoryClick = (type) => {
-    this.setState({appType: type})
+    this.setState({ appType: type })
 
     let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=25`
     let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=25`
@@ -191,9 +193,13 @@ class MiniDrawer extends React.Component {
   }
 
   componentDidMount() {
-    const toolbarWidth = this.divElement.clientWidth;
-    this.setState({ toolbarWidth: toolbarWidth });
-    console.log(`toolbar width: ${toolbarWidth}`);
+    const contentWidth = this.contentElement.clientWidth;
+    const contentHeight = this.contentElement.clientHeight;
+    this.setState({ contentWidth: contentWidth, contentHeight: contentHeight });
+
+    const recentlyAddedHeight = this.recentlyAddedElement.clientHeight;
+
+    console.log(`content width: ${contentWidth} height: ${contentHeight} recentlyAddedHeight: ${recentlyAddedHeight}`);
   }
 
   render() {
@@ -219,6 +225,7 @@ class MiniDrawer extends React.Component {
           className={classNames(classes.appBar, {
             [classes.appBarShift]: this.state.open,
           })}
+          ref={(appBarElement) => this.appBarElement = appBarElement}
         >
           <Toolbar disableGutters={!this.state.open}>
             <IconButton
@@ -280,31 +287,27 @@ class MiniDrawer extends React.Component {
             )}
           </List>
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} ref={(divElement) => this.divElement = divElement} />
-
+        <main className={classes.content} style={{height: '100%'}} ref={(contentElement) => this.contentElement = contentElement}>
           <Grid container spacing={24}>
-              <Grid item xs={12}>
-                  <p>test</p>
-              </Grid>
+            <Grid item xs={12} style={{paddingBottom: 5}} ref={(recentlyAddedElement) => this.recentlyAddedElement = recentlyAddedElement}>
+              <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Added</h3>
+              <AppHorizontalList items={filteredRecentlyAdded} width={this.state.contentWidth - 25} />
+            </Grid>
 
-              <Grid item xs={12}>
-                <p>test</p>
-              </Grid>
-          </Grid>
+            <Grid item xs={12} style={{paddingBottom: 5}}>
+              <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Updated</h3>
+              <AppHorizontalList items={filteredRecentlyUpdated} width={this.state.contentWidth - 25} />
+            </Grid>
 
-          <h3>Recently Added</h3>
-          <AppHorizontalList items={filteredRecentlyAdded} width={this.state.toolbarWidth} />
-
-          <h3>Recently Updated</h3>
-          <AppHorizontalList items={filteredRecentlyUpdated} width={this.state.toolbarWidth} />
-
-          <h3>{categories[this.state.appType - 1].name}'s</h3>
-          <div style={{width: this.state.toolbarWidth, maxHeight: '100%', overflow: 'hidden'}}>
-          {filteredApps.map((item) => {
+            <Grid item xs={12} style={{paddingBottom: 5, marginRight: 5}}>
+            <h3 style={{marginTop: 0, marginBottom: 5}}>{categories[this.state.appType - 1].name}'s</h3>
+            <div style={{height: this.state.contentHeight - 416 - 69 - 21 + 5, overflow: 'scroll'}}>
+            {filteredApps.map((item) => {
                 return <LinuxApp data={item} />
               })}
-          </div>
+            </div>
+            </Grid>
+          </Grid>
         </main>
       </div>
     );
