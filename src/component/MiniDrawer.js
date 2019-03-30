@@ -21,6 +21,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppHorizontalList from './AppHorizontalList.js';
 import LinuxApp from './LinuxApp.js';
 import { Grid } from '@material-ui/core';
+import { Collection } from 'react-virtualized';
 
 const drawerWidth = 240;
 
@@ -301,17 +302,57 @@ class MiniDrawer extends React.Component {
 
             <Grid item xs={12} style={{paddingBottom: 5, marginRight: 5}}>
             <h3 style={{marginTop: 0, marginBottom: 5}}>{categories[this.state.appType - 1].name}'s</h3>
-            <div style={{height: this.state.contentHeight - 416 - 69 - 21 + 5, overflow: 'scroll'}}>
-            {filteredApps.map((item) => {
-                return <LinuxApp data={item} />
-              })}
-            </div>
+
+            <Collection 
+                  cellCount={this.state.apps.length}
+                  cellRenderer={this.cellRenderer.bind(this)}
+                  cellSizeAndPositionGetter={this.cellSizeAndPositionGetter.bind(this)}
+                  height={this.state.contentHeight - 416 - 69 - 21 + 5}
+                  width={this.state.contentWidth - 25}              
+              />
+
             </Grid>
           </Grid>
         </main>
       </div>
     );
   }
+
+  cellRenderer ({ index, key, style }) {
+    let apps = this.state.apps
+    return (
+      <div
+        key={key}
+        style={style}        
+      >
+
+      <LinuxApp data={apps[index]} style={{margin: 1}} />
+
+      </div>
+    )
+  }
+  
+  cellSizeAndPositionGetter ({ index }) {
+    let cellWidth = 129
+    let cellHeight = 129
+
+    let contentWidth = this.state.contentWidth
+    let cols = Math.floor(contentWidth / cellWidth)
+
+    let xMod = index % cols
+    let xPos = xMod * cellWidth
+
+    let row = Math.floor(index / cols)
+    let yPos = row * cellHeight
+  
+    return {
+      height: cellHeight,
+      width: cellWidth,
+      x: xPos,
+      y: yPos
+    }
+  }
+
 }
 
 MiniDrawer.propTypes = {
