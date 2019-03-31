@@ -1,7 +1,9 @@
 # Linux App Store
 Is a universal app store for Linux.
 
-View the project live [here](https://chadalen.github.io/linux-app-store/)
+![https://i.imgur.com/MaFEmSP.png](https://i.imgur.com/MaFEmSP.png)
+
+Live demo coming soon
 
 ### The Problem
 * Flatpak, Snap and AppImage have their own app store which can only browse their own format.
