@@ -311,7 +311,8 @@ class MiniDrawer extends React.Component {
                   cellRenderer={this.cellRenderer.bind(this)}
                   cellSizeAndPositionGetter={this.cellSizeAndPositionGetter.bind(this)}
                   height={this.state.contentHeight - 416 - 69 - 21 + 5}
-                  width={this.state.contentWidth - 25}              
+                  width={this.state.contentWidth - 25}
+                  style={{overflowX: 'hidden'}}            
               />
 
             </Grid>
