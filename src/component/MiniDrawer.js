@@ -166,12 +166,14 @@ class MiniDrawer extends React.Component {
 
   onCategoryClick = (type) => {
     this.setState({ appType: type })
-    this.populateData(type)
+    this.populateData(type, this.state.contentWidth)
   };
 
-  populateData(type) {
-    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=25`
-    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=25`
+  populateData(type, contentWidth) {
+    let cols = Math.floor(contentWidth / 129)
+
+    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=${cols}`
+    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${cols}`
     let apps = `${baseUrl}/api/apps?type=${type}`
 
     fetch(recentlyAdded)
@@ -211,7 +213,7 @@ class MiniDrawer extends React.Component {
     console.log(`content width: ${contentWidth} height: ${contentHeight} recentlyAddedHeight: ${recentlyAddedHeight}`);
 
     if (this.state.apps.length === 0) {
-      this.populateData(this.state.appType)
+      this.populateData(this.state.appType, contentWidth)
     }
   }
 
