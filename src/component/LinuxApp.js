@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
 
+const appImageIconBaseUrl = "https://gitcdn.xyz/repo/AppImage/appimage.github.io/master/database"
+
 const gridCellWidth = 128
 
 const styles = theme => ({
@@ -42,8 +44,15 @@ class LinuxApp extends Component {
     getDesktopImage(item) {
         let url = item.icon.toString();
 
-        if (!url.startsWith("https")) {
-            if (item.type === 3) {
+        if (item.type === 1) {
+            // appimage
+            if (!url) {
+                return "./images/appimage.png"
+            }
+            return `${appImageIconBaseUrl}/${url}`
+        } else if (item.type === 3) {
+            // snap
+            if (!url.startsWith("https")) {
                 return "./images/ubuntu_icon.png"
             }
         }
