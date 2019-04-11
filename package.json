@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "src/main.js",
   "private": true,
-  "homepage": "http://chadalen.github.io/linux-app-store",
+  "homepage": ".",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
