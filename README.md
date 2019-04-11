@@ -3,7 +3,7 @@ Is a universal app store for Linux.
 
 ![https://i.imgur.com/MaFEmSP.png](https://i.imgur.com/MaFEmSP.png)
 
-Live demo coming soon
+[linuxappstore.io](https://linuxappstore.io/)
 
 ### The Problem
 * Flatpak, Snap and AppImage have their own app store which can only browse their own format.
