@@ -25,7 +25,7 @@ import { Collection } from 'react-virtualized';
 
 const drawerWidth = 240;
 
-const baseUrl = 'http://linuxappstore.xyz'
+const baseUrl = 'https://linuxappstore.io'
 
 const categories = [
   { id: 1, src: './images/appimage.png', name: 'AppImage' },
