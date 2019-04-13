@@ -62,12 +62,7 @@ class LinuxApp extends Component {
 
     getSrc() {
         const { data } = this.props
-
-        if (data.type === 2) {
-            return `http://${data.src}`
-        } else {
-            return data.src
-        }
+        return data.src
     }
 
     render() {
