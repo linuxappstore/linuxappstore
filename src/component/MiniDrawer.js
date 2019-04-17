@@ -283,8 +283,8 @@ class MiniDrawer extends React.Component {
           </div>
           <Divider />
           <List>
-            {categories.map((item) =>
-              <ListItem button key={item.name} onClick={() => this.onCategoryClick(item.id)}>
+            {categories.map((item, index) =>
+              <ListItem button style={{backgroundColor: this.state.appType === (index + 1) ? "rgba(0, 0, 0, 0.08)": ""}} key={item.name} onClick={() => this.onCategoryClick(item.id)}>
                 <img className="icon" src={item.src} alt={item.name} style={{ width: 24, marginRight: 15 }} />
                 <ListItemText primary={item.name}></ListItemText>
               </ListItem>
