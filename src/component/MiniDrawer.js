@@ -19,9 +19,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppHorizontalList from './AppHorizontalList.js';
-import LinuxApp from './LinuxApp.js';
-import { Grid } from '@material-ui/core';
-import { Collection } from 'react-virtualized';
 
 const drawerWidth = 240;
 
@@ -119,7 +116,9 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     paddingLeft: 5,
-    paddingTop: 69
+    paddingTop: 69,
+    overflow: 'hidden',
+    height: '100%'
   },
   inputRoot: {
     color: 'inherit',
@@ -166,14 +165,20 @@ class MiniDrawer extends React.Component {
 
   onCategoryClick = (type) => {
     this.setState({ appType: type })
-    this.populateData(type, this.state.contentWidth)
+    this.populateData(type)
   };
 
-  populateData(type, contentWidth) {
-    let cols = Math.floor(contentWidth / 129)
+  showHorizontalList(items) {
+    let show = items.length > 0
+    return (
+      show ? <AppHorizontalList items={items} /> : null
+    )
+  }
 
-    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=${cols}`
-    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${cols}`
+  populateData(type) {
+
+    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=${25}`
+    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${25}`
     let apps = `${baseUrl}/api/apps?type=${type}`
 
     fetch(recentlyAdded)
@@ -204,16 +209,8 @@ class MiniDrawer extends React.Component {
   }
 
   componentDidMount() {
-    const contentWidth = this.contentElement.clientWidth;
-    const contentHeight = this.contentElement.clientHeight;
-    this.setState({ contentWidth: contentWidth, contentHeight: contentHeight });
-
-    const recentlyAddedHeight = this.recentlyAddedElement.clientHeight;
-
-    console.log(`content width: ${contentWidth} height: ${contentHeight} recentlyAddedHeight: ${recentlyAddedHeight}`);
-
     if (this.state.apps.length === 0) {
-      this.populateData(this.state.appType, contentWidth)
+      this.populateData(this.state.appType)
     }
   }
 
@@ -284,77 +281,27 @@ class MiniDrawer extends React.Component {
           <Divider />
           <List>
             {categories.map((item, index) =>
-              <ListItem button style={{backgroundColor: this.state.appType === (index + 1) ? "rgba(0, 0, 0, 0.08)": ""}} key={item.name} onClick={() => this.onCategoryClick(item.id)}>
+              <ListItem button style={{ backgroundColor: this.state.appType === (index + 1) ? "rgba(0, 0, 0, 0.08)" : "" }} key={item.name} onClick={() => this.onCategoryClick(item.id)}>
                 <img className="icon" src={item.src} alt={item.name} style={{ width: 24, marginRight: 15 }} />
-                <ListItemText primary={item.name}></ListItemText>
+                <ListItemText primary={item.name} style={{ display: this.state.open ? '' : 'none' }}></ListItemText>
               </ListItem>
             )}
           </List>
         </Drawer>
-        <main className={classes.content} style={{height: '100%'}} ref={(contentElement) => this.contentElement = contentElement}>
-          <Grid container spacing={24}>
-            <Grid item xs={12} style={{paddingBottom: 5}} ref={(recentlyAddedElement) => this.recentlyAddedElement = recentlyAddedElement}>
-              <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Added</h3>
-              <AppHorizontalList items={this.state.recentlyAdded} width={this.state.contentWidth - 25} />
-            </Grid>
+        <main className={classes.content}>
 
-            <Grid item xs={12} style={{paddingBottom: 5}}>
-              <h3 style={{marginTop: 0, marginBottom: 5}}>Recently Updated</h3>
-              <AppHorizontalList items={this.state.recentlyUpdated} width={this.state.contentWidth - 25} />
-            </Grid>
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 45 }}>{categories[this.state.appType - 1].name}'s</h3>
+          {this.showHorizontalList(filteredApps)}
 
-            <Grid item xs={12} style={{paddingBottom: 5, marginRight: 5}}>
-            <h3 style={{marginTop: 0, marginBottom: 5}}>{categories[this.state.appType - 1].name}'s</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 45 }}>Recently Added</h3>
+          {this.showHorizontalList(this.state.recentlyAdded)}
 
-            <Collection 
-                  cellCount={filteredApps.length}
-                  cellRenderer={this.cellRenderer.bind(this)}
-                  cellSizeAndPositionGetter={this.cellSizeAndPositionGetter.bind(this)}
-                  height={this.state.contentHeight - 416 - 69 - 21 + 5}
-                  width={this.state.contentWidth - 25}
-                  style={{overflowX: 'hidden'}}            
-              />
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 45 }}>Recently Updated</h3>
+          {this.showHorizontalList(this.state.recentlyUpdated)}
 
-            </Grid>
-          </Grid>
         </main>
       </div>
     );
-  }
-
-  cellRenderer ({ index, key, style }) {
-    let apps = this.state.filteredApps.length === 0 ? this.state.apps : this.state.filteredApps
-    return (
-      <div
-        key={key}
-        style={style}        
-      >
-
-      <LinuxApp data={apps[index]} style={{margin: 1}} />
-
-      </div>
-    )
-  }
-  
-  cellSizeAndPositionGetter ({ index }) {
-    let cellWidth = 129
-    let cellHeight = 129
-
-    let contentWidth = this.state.contentWidth
-    let cols = Math.floor(contentWidth / cellWidth)
-
-    let xMod = index % cols
-    let xPos = xMod * cellWidth
-
-    let row = Math.floor(index / cols)
-    let yPos = row * cellHeight
-  
-    return {
-      height: cellHeight,
-      width: cellWidth,
-      x: xPos,
-      y: yPos
-    }
   }
 
 }
