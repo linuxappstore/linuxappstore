@@ -216,7 +216,7 @@ class MiniDrawer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-    const filteredApps = this.state.filteredApps.length === 0 ? this.state.apps : this.state.filteredApps
+    const filteredApps = this.state.filteredApps.length === 0 && this.state.search.length === 0 ? this.state.apps : this.state.filteredApps
 
     return (
       <div className={classes.root}>
