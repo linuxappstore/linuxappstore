@@ -1,9 +1,8 @@
 # Linux App Store
 Is a universal app store for Linux.
-
-![https://i.imgur.com/MaFEmSP.png](https://i.imgur.com/MaFEmSP.png)
-
 [linuxappstore.io](https://linuxappstore.io/)
+
+![https://i.imgur.com/xlru7K4.png](https://i.imgur.com/xlru7K4.png)
 
 ### The Problem
 * Flatpak, Snap and AppImage have their own app store which can only browse their own format.
