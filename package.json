@@ -8,9 +8,11 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
     "fg-loadcss": "^2.1.0",
     "node-sass": "^4.11.0",
     "react": "^16.8.3",
+    "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5",
     "react-virtualized": "^9.21.0"

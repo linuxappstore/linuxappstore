@@ -19,6 +19,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppHorizontalList from './AppHorizontalList.js';
+import RandomAlert from './RandomAlert'
 
 const drawerWidth = 240;
 
@@ -289,6 +290,8 @@ class MiniDrawer extends React.Component {
           </List>
         </Drawer>
         <main className={classes.content}>
+
+          <RandomAlert style={{ marginTop: 5, marginBottom: 5, marginLeft: 45, marginRight: 48 }} />
 
           <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 45 }}>{categories[this.state.appType - 1].name}'s</h3>
           {this.showHorizontalList(filteredApps)}

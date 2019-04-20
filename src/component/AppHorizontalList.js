@@ -6,7 +6,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import LinuxApp from './LinuxApp'
-import TablePaginationActions from '@material-ui/core/TablePagination/TablePaginationActions';
 
 const styles = theme => ({
   listWrapper: {
@@ -73,7 +72,7 @@ class AppHorizontalList extends React.Component {
   arraysEqual(a, b) {
     if (a === b) return true;
     if (a == null || b == null) return false;
-    if (a.length != b.length) return false;
+    if (a.length !== b.length) return false;
     
     for (var i = 0; i < a.length; ++i) {
       if (a[i] !== b[i]) return false;
@@ -121,8 +120,8 @@ class AppHorizontalList extends React.Component {
         </div>
         <div className={classes.sliderWrapper} ref={this.sliderWrapper} >
         <div className={classes.slider}>
-        {this.state.itemsInViewport.map(item => (
-          <LinuxApp data={item} key={item.id} />
+        {this.state.itemsInViewport.map((item, idx) => (
+          <LinuxApp data={item} key={idx} />
           ))}
         </div>
         </div>
