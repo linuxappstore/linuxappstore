@@ -92,11 +92,11 @@ class AppHorizontalList extends React.Component {
       let width = element.current.clientWidth
       let cols = Math.floor(width / 129)
 
+      let itemsInViewport = this.state.itemsInViewport
+
       if (items.length && this.state.position < items.length) {
         let copy = [...items]
         let remaining = items.length - position
-
-        let itemsInViewport = this.state.itemsInViewport
 
         if (position + cols < items.length) {
           itemsInViewport = copy.splice(position, cols)
@@ -104,6 +104,9 @@ class AppHorizontalList extends React.Component {
           itemsInViewport = copy.splice(position, remaining)
         }
         this.setState({itemsInViewport: itemsInViewport, position: position})
+      } else {
+          itemsInViewport = [...items]
+          this.setState({itemsInViewport: itemsInViewport, position: 0})
       }
   }
 
