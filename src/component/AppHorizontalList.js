@@ -30,7 +30,9 @@ class AppHorizontalList extends React.Component {
 
   state = {
     position: 0,
-    itemsInViewport: []
+    itemsInViewport: [],
+    showPrev: true,
+    showNext: true,
   };
   
   constructor(props) {
@@ -102,22 +104,46 @@ class AppHorizontalList extends React.Component {
         } else {
           itemsInViewport = copy.splice(position, remaining)
         }
-        this.setState({itemsInViewport: itemsInViewport, position: position})
+        this.setState({itemsInViewport: itemsInViewport, position: position, showPrev: position > 0, showNext: position < items.length - 1})
       } else {
           itemsInViewport = [...items]
-          this.setState({itemsInViewport: itemsInViewport, position: 0})
+          this.setState({itemsInViewport: itemsInViewport, position: 0, showPrev: false, showNext: position < items.length - 1})
       }
+  }
+
+  showPrevControl() {
+    const { classes } = this.props
+    let show = this.state.showPrev
+    return (
+      show ? 
+      <div className={classes.control} >
+      <IconButton onClick={this.onPrevious.bind(this)}>
+        <ChevronLeftIcon />
+      </IconButton>
+    </div> : null
+    )
+  }
+
+  showNextControl() {
+    const { classes } = this.props
+    let show = this.state.showNext
+    return (
+      show ? <div className={classes.control}>
+      <IconButton onClick={this.onNext.bind(this)}>
+        <ChevronRightIcon />
+      </IconButton>
+    </div> : null
+    )
   }
 
   render() {
     const { classes } = this.props
     return (
-      <div className={classes.listWrapper}>
-        <div className={classes.control} >
-          <IconButton onClick={this.onPrevious.bind(this)}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
+      <div className={classes.listWrapper} style={{marginLeft: this.state.showPrev ? 0 : 48,
+       marginRight: this.state.showNext ? 0 : 48}}>
+
+        {this.showPrevControl()}
+
         <div className={classes.sliderWrapper} ref={this.sliderWrapper} >
         <div className={classes.slider}>
         {this.state.itemsInViewport.map((item, idx) => (
@@ -125,11 +151,8 @@ class AppHorizontalList extends React.Component {
           ))}
         </div>
         </div>
-        <div className={classes.control} >
-          <IconButton onClick={this.onNext.bind(this)}>
-            <ChevronRightIcon />
-          </IconButton>
-        </div>
+
+        {this.showNextControl()}
       </div>
     );
   }
