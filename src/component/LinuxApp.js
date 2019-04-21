@@ -70,7 +70,7 @@ class LinuxApp extends Component {
         return (
             <Card className={classNames(classes.card)}>
                 <CardActionArea>
-                    <a className={classNames(classes.link)} href={this.getSrc()} target="_blank" rel={"noopener noreferrer"}>
+                    <a className={classNames(classes.link)} href={this.getSrc()} target="_blank" rel="noopener noreferrer">
                         <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
                             {data.name}
                         </Typography>
