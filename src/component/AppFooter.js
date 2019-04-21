@@ -9,7 +9,7 @@ const styles = theme => ({
         left: 0,
         bottom: 0,
         width: "100%",
-        backgroundColor: "white",
+        backgroundColor: "#fafafa",
         color: "black",
         textAlign: "center"
     }
