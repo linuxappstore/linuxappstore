@@ -295,13 +295,13 @@ class MiniDrawer extends React.Component {
 
           <RandomAlert style={{ marginBottom: '5px'}} />
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 50 }}>{categories[this.state.appType - 1].name}'s</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>{categories[this.state.appType - 1].name}'s</h3>
           {this.showHorizontalList(filteredApps)}
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 50 }}>Recently Added</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>Recently Added</h3>
           {this.showHorizontalList(this.state.recentlyAdded)}
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 50 }}>Recently Updated</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>Recently Updated</h3>
           {this.showHorizontalList(this.state.recentlyUpdated)}
 
         </main>

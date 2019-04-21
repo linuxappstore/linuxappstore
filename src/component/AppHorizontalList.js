@@ -18,7 +18,6 @@ const styles = theme => ({
     display: 'inline-block'
   },
   slider: {
-    padding: '5px',
     whiteSpace: 'nowrap'
   },
   control: {
