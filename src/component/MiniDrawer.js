@@ -118,6 +118,7 @@ const styles = theme => ({
     flexGrow: 1,
     paddingLeft: 5,
     paddingTop: 69,
+    paddingRight: 5,
     overflowX: 'hidden',
     height: '100%'
   },
@@ -291,7 +292,7 @@ class MiniDrawer extends React.Component {
         </Drawer>
         <main className={classes.content}>
 
-          <RandomAlert style={{ marginTop: 5, marginBottom: 5, marginLeft: 45, marginRight: 48 }} />
+          <RandomAlert style={{ marginBottom: '5px'}} />
 
           <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 50 }}>{categories[this.state.appType - 1].name}'s</h3>
           {this.showHorizontalList(filteredApps)}

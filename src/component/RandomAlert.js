@@ -73,9 +73,9 @@ class RandomAlert extends React.Component {
     }
 
     render() {
-        const { classes } = this.props
+        const { classes, style } = this.props
         return (
-            <Alert variant={"primary"}>
+            <Alert variant={"primary"} style={style}>
                 <div className={classes.content}>
                 {this.messages()[this.state.msgIdx]}
                 </div>
