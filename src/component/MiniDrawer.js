@@ -119,6 +119,7 @@ const styles = theme => ({
     paddingLeft: 5,
     paddingTop: 69,
     paddingRight: 5,
+    paddingBottom: 24,
     overflowX: 'hidden',
     height: '100%'
   },
