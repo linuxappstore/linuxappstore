@@ -128,7 +128,7 @@ class AppHorizontalList extends React.Component {
     const { classes } = this.props
     let show = this.state.showNext
     return (
-      show ? <div className={classes.control}>
+      show ? <div className={classes.control} style={{ marginRight: '5px'}}>
       <IconButton onClick={this.onNext.bind(this)}>
         <ChevronRightIcon />
       </IconButton>
