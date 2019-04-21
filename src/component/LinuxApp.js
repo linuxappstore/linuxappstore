@@ -28,11 +28,18 @@ const styles = theme => ({
     icon: {
         width: 64
     },
+    appTypeIcon: {
+        width: 16,
+        position: 'absolute',
+        left: 5,
+        bottom: 5
+    },
     card: {
         width: gridCellWidth,
         height: gridCellWidth,
         display: 'inline-block',
-        margin: '1px'
+        margin: '1px',
+        position: 'relative'
     },
     link: {
         textDecoration: 'none'
@@ -65,10 +72,35 @@ class LinuxApp extends Component {
         return data.src
     }
 
+    getAppTypeIcon() {
+        const { data } = this.props
+
+        if (data.type === 1) {
+            return './images/appimage.png'
+        } else if (data.type === 2) {
+            return './images/flatpak.png'
+        } else if (data.type === 3) {
+            return './images/snap.png'
+        } else {
+            return './images/app_store.png'
+        }
+    }
+
+    showAppTypeIcon() {
+        const { classes, category } = this.props 
+        let show = category === 0   
+        return (
+            show ? <img className={classNames(classes.appTypeIcon, "img-fluid")} src={this.getAppTypeIcon()} alt="App Type Icon"  /> : null
+        )
+    }
+
     render() {
         const { data, classes } = this.props
         return (
             <Card className={classNames(classes.card)}>
+
+                {this.showAppTypeIcon()}
+
                 <CardActionArea>
                     <a className={classNames(classes.link)} href={this.getSrc()} target="_blank" rel="noopener noreferrer">
                         <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>

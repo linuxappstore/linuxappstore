@@ -26,9 +26,10 @@ const drawerWidth = 240;
 const baseUrl = 'https://linuxappstore.io'
 
 const categories = [
+  { id: 0, src: './images/app_store.png', name: 'All' },
   { id: 1, src: './images/appimage.png', name: 'AppImage' },
   { id: 2, src: './images/flatpak.png', name: 'Flatpak' },
-  { id: 3, src: './images/snap.png', name: 'Snap' }
+  { id: 3, src: './images/snap.png', name: 'Snap' },
 ]
 
 const styles = theme => ({
@@ -153,7 +154,7 @@ class MiniDrawer extends React.Component {
     recentlyAdded: [],
     recentlyUpdated: [],
     search: '',
-    appType: 2,
+    appType: 0,
     contentWidth: 0,
     contentHeight: 0
   };
@@ -174,15 +175,15 @@ class MiniDrawer extends React.Component {
   showHorizontalList(items) {
     let show = items.length > 0
     return (
-      show ? <AppHorizontalList items={items} /> : null
+      show ? <AppHorizontalList items={items} category={this.state.appType} /> : null
     )
   }
 
   populateData(type) {
 
-    let recentlyAdded = `${baseUrl}/api/recentlyAdded?type=${type}&limit=${25}`
-    let recentlyUpdated = `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${25}`
-    let apps = `${baseUrl}/api/apps?type=${type}`
+    let recentlyAdded = type === 0 ? `${baseUrl}/api/recentlyAdded?limit=${25}` : `${baseUrl}/api/recentlyAdded?type=${type}&limit=${25}`
+    let recentlyUpdated = type === 0 ? `${baseUrl}/api/recentlyUpdated?limit=${25}` : `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${25}`
+    let apps = type === 0 ? `${baseUrl}/api/apps` : `${baseUrl}/api/apps?type=${type}`
 
     fetch(recentlyAdded)
       .then((response) => response.json())
@@ -284,7 +285,7 @@ class MiniDrawer extends React.Component {
           <Divider />
           <List>
             {categories.map((item, index) =>
-              <ListItem button style={{ backgroundColor: this.state.appType === (index + 1) ? "rgba(0, 0, 0, 0.08)" : "" }} key={item.name} onClick={() => this.onCategoryClick(item.id)}>
+              <ListItem button style={{ backgroundColor: this.state.appType === index ? "rgba(0, 0, 0, 0.08)" : "" }} key={item.name} onClick={() => this.onCategoryClick(index)}>
                 <img className="icon" src={item.src} alt={item.name} style={{ width: 24, marginRight: 15 }} />
                 <ListItemText primary={item.name} style={{ display: this.state.open ? '' : 'none' }}></ListItemText>
               </ListItem>
@@ -295,7 +296,7 @@ class MiniDrawer extends React.Component {
 
           <RandomAlert style={{ marginBottom: '5px'}} />
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>{categories[this.state.appType - 1].name}'s</h3>
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>{categories[this.state.appType].name}</h3>
           {this.showHorizontalList(filteredApps)}
 
           <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>Recently Added</h3>

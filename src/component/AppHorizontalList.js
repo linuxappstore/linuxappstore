@@ -136,7 +136,7 @@ class AppHorizontalList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, category } = this.props
     return (
       <div className={classes.listWrapper} style={{marginLeft: this.state.showPrev ? 0 : 48,
        marginRight: this.state.showNext ? 0 : 48}}>
@@ -146,7 +146,7 @@ class AppHorizontalList extends React.Component {
         <div className={classes.sliderWrapper} ref={this.sliderWrapper} >
         <div className={classes.slider}>
         {this.state.itemsInViewport.map((item, idx) => (
-          <LinuxApp data={item} key={idx} />
+          <LinuxApp data={item} key={idx} category={category} />
           ))}
         </div>
         </div>
