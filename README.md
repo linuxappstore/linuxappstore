@@ -2,7 +2,7 @@
 Is a universal app store for Linux.
 [linuxappstore.io](https://linuxappstore.io/)
 
-![https://i.imgur.com/xlru7K4.png](https://i.imgur.com/xlru7K4.png)
+![https://i.imgur.com/FxPb7Ck.png](https://i.imgur.com/FxPb7Ck.png)
 
 ### The Problem
 * Flatpak, Snap and AppImage have their own app store which can only browse their own format.
