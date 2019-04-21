@@ -1,3 +1,5 @@
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![https://travis-ci.com/linuxappstore/linuxappstore-frontend.svg?branch=master](https://travis-ci.com/linuxappstore/linuxappstore-frontend.svg?branch=master) ![https://img.shields.io/github/issues/linuxappstore/linuxappstore-frontend.svg](https://img.shields.io/github/issues/linuxappstore/linuxappstore-frontend.svg) ![https://david-dm.org/linuxappstore/linuxappstore-frontend.svg](https://david-dm.org/linuxappstore/linuxappstore-frontend.svg) [![HitCount](http://hits.dwyl.io/linuxappstore/linuxappstore-frontend.svg)](http://hits.dwyl.io/linuxappstore/linuxappstore-frontend)
+
 # Linux App Store
 Is a universal app store for Linux.
 [linuxappstore.io](https://linuxappstore.io/)
