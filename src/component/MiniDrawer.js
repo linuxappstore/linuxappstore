@@ -118,7 +118,7 @@ const styles = theme => ({
     flexGrow: 1,
     paddingLeft: 5,
     paddingTop: 69,
-    overflow: 'hidden',
+    overflowX: 'hidden',
     height: '100%'
   },
   inputRoot: {
