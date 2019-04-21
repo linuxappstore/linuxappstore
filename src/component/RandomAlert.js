@@ -68,6 +68,11 @@ class RandomAlert extends React.Component {
                     )
                 </React.Fragment>
 
+            ),
+            (
+                <React.Fragment>
+                Want to become a Patron? See <Alert.Link href="https://www.patreon.com/linuxappstore" target="_blank">here</Alert.Link>
+                </React.Fragment>
             )
         ]
     }
