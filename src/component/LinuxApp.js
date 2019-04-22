@@ -40,9 +40,6 @@ const styles = theme => ({
         display: 'inline-block',
         margin: '1px',
         position: 'relative'
-    },
-    link: {
-        textDecoration: 'none'
     }
 })
 
@@ -102,7 +99,7 @@ class LinuxApp extends Component {
                 {this.showAppTypeIcon()}
 
                 <CardActionArea>
-                    <a className={classNames(classes.link)} href={this.getSrc()} target="_blank" rel="noopener noreferrer">
+                    <a style={{ textDecoration: 'none' }} href={this.getSrc()} target="_blank" rel="noopener noreferrer">
                         <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
                             {data.name}
                         </Typography>
