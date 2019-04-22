@@ -172,10 +172,10 @@ class MiniDrawer extends React.Component {
     this.populateData(type)
   };
 
-  showHorizontalList(items) {
+  showHorizontalList(items, shuffle = false) {
     let show = items.length > 0
     return (
-      show ? <AppHorizontalList items={items} category={this.state.appType} /> : null
+      show ? <AppHorizontalList items={items} category={this.state.appType} shuffle={shuffle} /> : null
     )
   }
 
@@ -304,6 +304,9 @@ class MiniDrawer extends React.Component {
 
           <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>Recently Updated</h3>
           {this.showHorizontalList(this.state.recentlyUpdated)}
+
+          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46 }}>Discover</h3>
+          {this.showHorizontalList(this.state.apps, true, true)}
 
         </main>
       </div>

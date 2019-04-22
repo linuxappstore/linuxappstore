@@ -32,6 +32,7 @@ class AppHorizontalList extends React.Component {
     itemsInViewport: [],
     showPrev: true,
     showNext: true,
+    shuffleTimer: 0
   };
   
   constructor(props) {
@@ -59,8 +60,22 @@ class AppHorizontalList extends React.Component {
   }
 
   componentDidMount() {
+    const { shuffle } = this.props
+
     window.addEventListener('resize', this.onResize.bind(this))
-    this.updateViewport(this.state.position)
+    this.updateViewport(0)
+
+    if (shuffle) {
+      this.interval = setInterval(() => {
+        let timer = this.state.shuffleTimer            
+        if (timer >= 15) {
+            this.updateViewport(0, true)
+            this.setState({shuffleTimer: 0});
+        } else {
+            this.setState({shuffleTimer: timer + 1});
+        }
+      }, 1000);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -85,7 +100,7 @@ class AppHorizontalList extends React.Component {
     this.updateViewport(this.state.position)
   }
 
-  updateViewport(position) {
+  updateViewport(position, shuffle = false) {
       const { items } = this.props
 
       let element = this.sliderWrapper
@@ -98,7 +113,9 @@ class AppHorizontalList extends React.Component {
         let copy = [...items]
         let remaining = items.length - position
 
-        if (position + cols < items.length) {
+        if (shuffle) {
+          itemsInViewport = this.getRandomItems(cols, copy)
+        } else if (position + cols < items.length) {
           itemsInViewport = copy.splice(position, cols)
         } else {
           itemsInViewport = copy.splice(position, remaining)
@@ -110,12 +127,36 @@ class AppHorizontalList extends React.Component {
       }
   }
 
+  generateRandomNumbers(amount, items) {
+    let numbers = []
+    let min = Math.min(amount, items.length)
+    while(numbers.length < min) {
+        let r = Math.floor(Math.random()*items.length);
+        if(numbers.indexOf(r) === -1) {
+          numbers.push(r)
+        }
+    }
+
+    return numbers
+  }
+
+  getRandomItems(cols, items) {
+    let itemsInViewport = []
+    let randomIndexes = this.generateRandomNumbers(cols, items)
+
+    for (let i = 0; i < randomIndexes.length; i++) {
+      itemsInViewport.push(items[randomIndexes[i]])
+    }
+
+    return itemsInViewport
+  }
+
   showPrevControl() {
-    const { classes } = this.props
-    let show = this.state.showPrev
+    const { classes, shuffle } = this.props
+    let show = this.state.showPrev && !shuffle
     return (
       show ? 
-      <div className={classes.control} >
+      <div className={classes.control}>
       <IconButton onClick={this.onPrevious.bind(this)}>
         <ChevronLeftIcon />
       </IconButton>
@@ -124,14 +165,14 @@ class AppHorizontalList extends React.Component {
   }
 
   showNextControl() {
-    const { classes } = this.props
-    let show = this.state.showNext
+    const { classes, shuffle } = this.props
+    let show = this.state.showNext && !shuffle
     return (
-      show ? <div className={classes.control}>
+      show ? <div className={classes.control} style={{ opacity: shuffle ? 0 : 100}}>
       <IconButton onClick={this.onNext.bind(this)}>
         <ChevronRightIcon />
       </IconButton>
-    </div> : null
+    </div> : <div style={{ width: 48 }}></div>
     )
   }
 
