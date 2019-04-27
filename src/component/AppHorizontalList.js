@@ -31,7 +31,8 @@ class AppHorizontalList extends React.Component {
     itemsInViewport: [],
     showPrev: true,
     showNext: true,
-    shuffleTimer: 0
+    shuffleTimer: 0,
+    sliderWidth: 0
   };
   
   constructor(props) {
@@ -104,7 +105,9 @@ class AppHorizontalList extends React.Component {
 
       let element = this.listWrapper
       let width = element.current.clientWidth
-      let cols = Math.floor(width / 129)
+      let cols = Math.floor(width / (128 + 10))
+
+      let calculatedWidth = (cols * (128 + 10))
 
       let itemsInViewport = this.state.itemsInViewport
 
@@ -119,10 +122,10 @@ class AppHorizontalList extends React.Component {
         } else {
           itemsInViewport = copy.splice(position, remaining)
         }
-        this.setState({itemsInViewport: itemsInViewport, position: position, showPrev: position > 0, showNext: position < items.length - 1})
+        this.setState({itemsInViewport: itemsInViewport, position: position, showPrev: position > 0, showNext: position < items.length - 1, sliderWidth: calculatedWidth})
       } else {
           itemsInViewport = [...items]
-          this.setState({itemsInViewport: itemsInViewport, position: 0, showPrev: false, showNext: position < items.length - 1})
+          this.setState({itemsInViewport: itemsInViewport, position: 0, showPrev: false, showNext: position < items.length - 1, sliderWidth: calculatedWidth})
       }
   }
 
@@ -183,7 +186,7 @@ class AppHorizontalList extends React.Component {
 
         {this.showPrevControl()}
 
-        <div className={classes.sliderWrapper} >
+        <div className={classes.sliderWrapper} style={{ width: this.state.sliderWidth }} >
         <div className={classes.slider}>
         {this.state.itemsInViewport.map((item, idx) => (
           <LinuxApp data={item} key={idx} category={category} />
