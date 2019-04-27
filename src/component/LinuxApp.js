@@ -38,7 +38,7 @@ const styles = theme => ({
         width: gridCellWidth,
         height: gridCellWidth,
         display: 'inline-block',
-        margin: '1px',
+        marginRight: '10px',
         position: 'relative'
     }
 })
