@@ -14,7 +14,6 @@ const styles = theme => ({
   },
   sliderWrapper: {
     overflow: 'hidden',
-    flexGrow: 1,
     display: 'inline-block'
   },
   slider: {
@@ -37,7 +36,7 @@ class AppHorizontalList extends React.Component {
   
   constructor(props) {
     super(props)
-    this.sliderWrapper = React.createRef()
+    this.listWrapper = React.createRef()
   }
 
   onNext() {
@@ -103,7 +102,7 @@ class AppHorizontalList extends React.Component {
   updateViewport(position, shuffle = false) {
       const { items } = this.props
 
-      let element = this.sliderWrapper
+      let element = this.listWrapper
       let width = element.current.clientWidth
       let cols = Math.floor(width / 129)
 
@@ -180,11 +179,11 @@ class AppHorizontalList extends React.Component {
     const { classes, category } = this.props
     return (
       <div className={classes.listWrapper} style={{marginLeft: this.state.showPrev ? 0 : 48,
-       marginRight: this.state.showNext ? 0 : 48}}>
+       marginRight: this.state.showNext ? 0 : 48}} ref={this.listWrapper}>
 
         {this.showPrevControl()}
 
-        <div className={classes.sliderWrapper} ref={this.sliderWrapper} >
+        <div className={classes.sliderWrapper} >
         <div className={classes.slider}>
         {this.state.itemsInViewport.map((item, idx) => (
           <LinuxApp data={item} key={idx} category={category} />
