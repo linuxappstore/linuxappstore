@@ -17,17 +17,10 @@ const styles = theme => ({
 
 class AppFooter extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            version: '0.2.1'
-        }
-    }
-
     render() {
         const { classes } = this.props;
         return (
-            <footer className={classNames(classes.footer)}><small>&copy; Copyright 2019, StellaSoft - {this.state.version}</small></footer>
+            <footer className={classNames(classes.footer)}><small>&copy; Copyright 2019, StellaSoft - {process.env.REACT_APP_VERSION}</small></footer>
         )
     }
 }
