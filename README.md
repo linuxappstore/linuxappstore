@@ -13,10 +13,7 @@ Flatpak, Snap and AppImage have their own app store which can only browse their 
 
 The Linux App Store will act as the middle-man and give you access to all of them from a single interface.
 
-Why another App Store?
-We want to make an App Store that has no bias towards a specific distro, desktop environment or package format. We also want to make an App store that just works.
-
-Take a look at [Gnome Software Center](https://wiki.gnome.org/Apps/Software) for example..
+Other software centers such as [Gnome Software Center](https://wiki.gnome.org/Apps/Software)
 * Built on GTK (Works best on Gnome desktops)
 * Focuses on Gnome apps
 * Slow and buggy
@@ -42,6 +39,9 @@ A: No this will be 100% free. If you enjoy what we do, donations are always appr
 
 **Q: Will you ever add deb or rpm packages?**
 A: In the future possibly, not the main focus right now though.
+
+**Q: Why another Software Center/App Store?**
+We want to make an App Store that has no bias towards a specific distro, desktop environment or package format. We also want to make an App store that just works.
 
 ### Roadmap
 * ~~Web version~~
