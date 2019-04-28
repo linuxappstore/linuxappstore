@@ -20,7 +20,7 @@ class AppFooter extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            version: '0.2.0'
+            version: '0.2.1'
         }
     }
 
