@@ -107,7 +107,7 @@ class AppHorizontalList extends React.Component {
       let width = element.current.clientWidth
       let cols = Math.floor(width / (128 + 10))
 
-      let calculatedWidth = (cols * (128 + 10))
+      let calculatedWidth = cols * (128 + 10)
 
       let itemsInViewport = this.state.itemsInViewport
 
@@ -162,7 +162,8 @@ class AppHorizontalList extends React.Component {
       <IconButton onClick={this.onPrevious.bind(this)}>
         <ChevronLeftIcon />
       </IconButton>
-    </div> : null
+    </div> : <div style={{minWidth: 48, minHeight: 48, display: 'inline-block'}}></div>
+
     )
   }
 
@@ -174,15 +175,14 @@ class AppHorizontalList extends React.Component {
       <IconButton onClick={this.onNext.bind(this)}>
         <ChevronRightIcon />
       </IconButton>
-    </div> : <div style={{ width: 48 }}></div>
+    </div> : <div style={{ minWidth: 48, minHeight: 48, display: 'inline-block' }}></div>
     )
   }
 
   render() {
     const { classes, category } = this.props
     return (
-      <div className={classes.listWrapper} style={{marginLeft: this.state.showPrev ? 0 : 48,
-       marginRight: this.state.showNext ? 0 : 48}} ref={this.listWrapper}>
+      <div className={classes.listWrapper} ref={this.listWrapper}>
 
         {this.showPrevControl()}
 
