@@ -42,21 +42,28 @@ class AppHorizontalList extends React.Component {
 
   onNext() {
     const { items } = this.props;
+
+    let cols = this.getColumnCount()
+    let nextPos = this.state.position + cols
+
+    if (nextPos >= items.length) {
+      nextPos = items.length - 1
+    }    
     
-    if (this.state.position + 1 >= items.length) {
-      return
-    }
-    this.updateViewport(this.state.position + 1)
-    console.log(`pos=${this.state.position} trans=${this.state.position * 130}`)
+    this.updateViewport(nextPos)
+    console.log(`pos=${this.state.position} trans=${this.state.position * 130} cols=${cols} nextPos=${nextPos}`)
   }
 
   onPrevious() {
-    if (this.state.position - 1 < 0) {
-      return
+    let cols = this.getColumnCount()
+    let nextPos = this.state.position - cols
+
+    if (nextPos < 0) {
+      nextPos = 0
     }
 
-    this.updateViewport(this.state.position - 1)
-    console.log(`pos=${this.state.position} trans=${this.state.position * 130}`)
+    this.updateViewport(nextPos)
+    console.log(`pos=${this.state.position} trans=${this.state.position * 130} cols=${cols} nextPos=${nextPos}`)
   }
 
   componentDidMount() {
@@ -103,9 +110,7 @@ class AppHorizontalList extends React.Component {
   updateViewport(position, shuffle = false) {
       const { items } = this.props
 
-      let element = this.listWrapper
-      let width = element.current.clientWidth
-      let cols = Math.floor(width / (128 + 10))
+      let cols = this.getColumnCount()
 
       let calculatedWidth = cols * (128 + 10)
 
@@ -127,6 +132,18 @@ class AppHorizontalList extends React.Component {
           itemsInViewport = [...items]
           this.setState({itemsInViewport: itemsInViewport, position: 0, showPrev: false, showNext: position < items.length - 1, sliderWidth: calculatedWidth})
       }
+  }
+
+  getColumnCount() {
+    let element = this.listWrapper
+    let cols = 0
+
+    if (element && element.current && element.current.clientWidth) {
+      let width = element.current.clientWidth
+      cols = Math.floor((width - 48 * 2) / (128 + 10))
+    }
+
+    return cols
   }
 
   generateRandomNumbers(amount, items) {
@@ -168,8 +185,15 @@ class AppHorizontalList extends React.Component {
   }
 
   showNextControl() {
-    const { classes, shuffle } = this.props
+    const { classes, shuffle, items } = this.props
     let show = this.state.showNext && !shuffle
+
+    let cols = this.getColumnCount()
+
+    if (this.state.position + cols >= items.length) {
+      show = false
+    }
+
     return (
       show ? <div className={classes.control} style={{ opacity: shuffle ? 0 : 100}}>
       <IconButton onClick={this.onNext.bind(this)}>
