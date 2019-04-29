@@ -294,18 +294,18 @@ class MiniDrawer extends React.Component {
         </Drawer>
         <main className={classes.content}>
 
-          <RandomAlert style={{ marginBottom: '5px'}} />
+          <RandomAlert />
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46, display: 'inline-block' }}>{categories[this.state.appType].name}</h3> <span>({this.state.apps.length})</span>
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>{categories[this.state.appType].name}</h3> <span>({this.state.apps.length})</span>
           {this.showHorizontalList(filteredApps)}
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46, display: 'inline-block' }}>Recently Added</h3>
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Added</h3>
           {this.showHorizontalList(this.state.recentlyAdded)}
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46, display: 'inline-block' }}>Recently Updated</h3>
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Updated</h3>
           {this.showHorizontalList(this.state.recentlyUpdated)}
 
-          <h3 style={{ marginTop: 0, marginBottom: 5, marginLeft: 46, display: 'inline-block' }}>Discover</h3>
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Discover</h3>
           {this.showHorizontalList(this.state.apps, true, true)}
 
         </main>
