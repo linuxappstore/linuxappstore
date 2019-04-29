@@ -120,9 +120,9 @@ class RandomAlert extends React.Component {
       </React.Fragment>,
 
       <React.Fragment>
-        Want to become a Patron?&nbsp;
-        <a href="https://www.patreon.com/linuxappstore" target="_blank" rel="noopener noreferrer">
-          See here
+        Want to support us?&nbsp;
+        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=freesunfury@gmail.com&lc=GB&item_name=Linux%20App%20Store&currency_code=USD&no_note=0&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest" target="_blank" rel="noopener noreferrer">
+          Donate
         </a>
       </React.Fragment>
     ];
