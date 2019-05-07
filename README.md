@@ -8,7 +8,7 @@ Is a universal app store for Linux. The focus of the Linux App Store is to make 
 ### The Problem
 Flatpak, Snap and AppImage have their own app store which can only browse their own format.
 * Flatpak: [FlatHub](https://flathub.org/home)
-* Snap: [SnapCraft](https://snapcraft.io/store)
+* Snap: [Snapcraft](https://snapcraft.io/store)
 * AppImage: [AppImageHub](https://appimage.github.io/apps/)
 
 The Linux App Store will act as the middle-man and give you access to all of them from a single interface.
