@@ -23,7 +23,8 @@ import RandomAlert from './RandomAlert'
 
 const drawerWidth = 240;
 
-const baseUrl = 'https://linuxappstore.io'
+//const baseUrl = 'https://linuxappstore.io'
+const baseUrl = 'http://192.168.1.134'
 
 const categories = [
   { id: 0, src: './images/app_store.png', name: 'All' },

@@ -57,7 +57,7 @@ class LinuxApp extends Component {
         } else if (item.type === 3) {
             // snap
             if (!url.startsWith("https")) {
-                return "./images/ubuntu_icon.png"
+                return "./images/missing_snap.svg"
             }
         }
 
