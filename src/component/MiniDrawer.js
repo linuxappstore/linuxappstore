@@ -23,8 +23,7 @@ import RandomAlert from './RandomAlert'
 
 const drawerWidth = 240;
 
-//const baseUrl = 'https://linuxappstore.io'
-const baseUrl = 'http://192.168.1.134'
+const baseUrl = 'https://linuxappstore.io'
 
 const categories = [
   { id: 0, src: './images/app_store.png', name: 'All' },
@@ -157,7 +156,8 @@ class MiniDrawer extends React.Component {
     search: '',
     appType: 0,
     contentWidth: 0,
-    contentHeight: 0
+    contentHeight: 0,
+    searchFlag: false
   };
 
   handleDrawerOpen = () => {
@@ -173,10 +173,10 @@ class MiniDrawer extends React.Component {
     this.populateData(type)
   };
 
-  showHorizontalList(items, shuffle = false) {
+  showHorizontalList(items, shuffle = false, filterable = false) {
     let show = items.length > 0
     return (
-      show ? <AppHorizontalList items={items} category={this.state.appType} shuffle={shuffle} /> : null
+      show ? <AppHorizontalList items={items} category={this.state.appType} shuffle={shuffle} /> : filterable && this.state.searchFlag ? <p style={{marginLeft: '48px', height: '135px', marginBottom: '0px'}}>No results</p> : null
     )
   }
 
@@ -210,7 +210,7 @@ class MiniDrawer extends React.Component {
       return item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
     });
 
-    this.setState({ search: e.target.value, filteredApps: filteredApps })
+    this.setState({ search: e.target.value, filteredApps: filteredApps, searchFlag: true })
   }
 
   componentDidMount() {
@@ -298,7 +298,7 @@ class MiniDrawer extends React.Component {
           <RandomAlert />
 
           <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>{categories[this.state.appType].name}</h3> <span>({this.state.apps.length})</span>
-          {this.showHorizontalList(filteredApps)}
+          {this.showHorizontalList(filteredApps, false, true)}          
 
           <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Added</h3>
           {this.showHorizontalList(this.state.recentlyAdded)}
@@ -307,7 +307,7 @@ class MiniDrawer extends React.Component {
           {this.showHorizontalList(this.state.recentlyUpdated)}
 
           <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Discover</h3>
-          {this.showHorizontalList(this.state.apps, true, true)}
+          {this.showHorizontalList(this.state.apps, true, false)}
 
         </main>
       </div>
