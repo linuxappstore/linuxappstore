@@ -98,20 +98,27 @@ class LinuxApp extends Component {
 
                 {this.showAppTypeIcon()}
 
-                <CardActionArea>
-                    <a style={{ textDecoration: 'none' }} href={this.getSrc()} target="_blank" rel="noopener noreferrer">
-                        <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
+                <CardActionArea onClick={this.onClick.bind(this)}>
+                <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
                             {data.name}
-                        </Typography>
+                </Typography>
 
-                        <CardContent>
-                            <img className={classNames(classes.icon, classes.center)} src={this.getDesktopImage(data)} alt={data.name} />
-                        </CardContent>
-                    </a>
+                <CardContent>
+                    <img className={classNames(classes.icon, classes.center)} src={this.getDesktopImage(data)} alt={data.name} />
+                </CardContent>
                 </CardActionArea>
             </Card>
         )
     }
+
+    onClick() {
+        let win = window.open(this.getSrc(), "_blank")
+
+        if (win) {
+            win.focus()
+        }
+    }
+
 }
 
 LinuxApp.propTypes = {
