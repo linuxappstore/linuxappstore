@@ -40,6 +40,9 @@ const styles = theme => ({
         display: 'inline-block',
         marginRight: '10px',
         position: 'relative'
+    },
+    actionArea: {
+        height: '100%'
     }
 })
 
@@ -98,7 +101,7 @@ class LinuxApp extends Component {
 
                 {this.showAppTypeIcon()}
 
-                <CardActionArea onClick={this.onClick.bind(this)}>
+                <CardActionArea className={classNames(classes.actionArea)} onClick={this.onClick.bind(this)}>
                 <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
                             {data.name}
                 </Typography>
