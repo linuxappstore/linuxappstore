@@ -58,13 +58,8 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
+    marginRight: '5px',
+    marginLeft: '10px'
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
@@ -114,6 +109,9 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+  },
+  toolbarRoot: {
+    minWidth: '500px'
   },
   content: {
     flexGrow: 1,
@@ -233,7 +231,7 @@ class MiniDrawer extends React.Component {
           })}
           ref={(appBarElement) => this.appBarElement = appBarElement}
         >
-          <Toolbar disableGutters={!this.state.open}>
+          <Toolbar className={classNames(classes.toolbarRoot)} disableGutters={!this.state.open}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
