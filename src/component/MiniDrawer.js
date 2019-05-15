@@ -217,9 +217,45 @@ class MiniDrawer extends React.Component {
     }
   }
 
+  renderSearch(disableSearch, classes) {
+    return (
+      disableSearch ?
+      <div className={classes.search}>
+      <div className={classes.searchIcon}>
+        <SearchIcon />
+      </div>
+      <InputBase
+        placeholder="Search…"
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        autoFocus={true}
+        readOnly={true}
+      />
+    </div>
+     :
+     <div className={classes.search}>
+     <div className={classes.searchIcon}>
+       <SearchIcon />
+     </div>
+     <InputBase
+       placeholder="Search…"
+       classes={{
+         root: classes.inputRoot,
+         input: classes.inputInput,
+       }}
+       onChange={this.onSearch}
+       autoFocus={true}
+     />
+   </div>
+    )
+  }
+
   render() {
     const { classes, theme } = this.props;
     const filteredApps = this.state.filteredApps.length === 0 && this.state.search.length === 0 ? this.state.apps : this.state.filteredApps
+    let disableSearch = this.state.apps.length === 0
 
     return (
       <div className={classes.root}>
@@ -246,20 +282,7 @@ class MiniDrawer extends React.Component {
               App Store
             </Typography>
 
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                onChange={this.onSearch}
-                autoFocus={true}
-              />
-            </div>
+              {this.renderSearch(disableSearch, classes)}
           </Toolbar>
         </AppBar>
         <Drawer
