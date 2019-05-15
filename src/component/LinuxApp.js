@@ -13,7 +13,14 @@ const gridCellWidth = 128
 
 const styles = theme => ({
     title: {
-        textAlign: 'center'
+        textAlign: 'center',
+        whiteSpace: 'normal',
+        wordBreak: 'break-word',
+        marginBottom: '0px',
+        position: 'absolute',
+        top: '0px',
+        display: 'block',
+        width: '100%'
     },
     appItem: {
         width: gridCellWidth,
@@ -26,7 +33,8 @@ const styles = theme => ({
         textAlign: 'center'
     },
     icon: {
-        width: 64
+        width: 64,
+        marginTop: '15px'
     },
     appTypeIcon: {
         width: 16,
@@ -94,6 +102,16 @@ class LinuxApp extends Component {
         )
     }
 
+    formatTitle(name) {
+        let n = name.toString()
+
+        if (n.length > 32) {
+            n = n.substring(0, 29) + "..."
+        }
+        
+        return n 
+    }
+
     render() {
         const { data, classes } = this.props
         return (
@@ -102,8 +120,8 @@ class LinuxApp extends Component {
                 {this.showAppTypeIcon()}
 
                 <CardActionArea className={classNames(classes.actionArea)} onClick={this.onClick.bind(this)}>
-                <Typography className={classNames(classes.center, classes.title)} color="textSecondary" gutterBottom>
-                            {data.name}
+                <Typography className={classNames(classes.title)} color="textSecondary" gutterBottom>
+                            {this.formatTitle(data.name)}
                 </Typography>
 
                 <CardContent>
