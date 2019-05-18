@@ -199,16 +199,24 @@ class MiniDrawer extends React.Component {
     fetch(apps)
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({ apps: responseJson, filteredApps: [], search: '' })
+        let filteredApps = this.getFilteredApps(responseJson, this.state.search)
+        
+        this.setState({ apps: responseJson, filteredApps: filteredApps })
       })
   }
 
   onSearch = e => {
-    const filteredApps = this.state.apps.filter(item => {
-      return item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
-    });
+    const filteredApps = this.getFilteredApps(this.state.apps, e.target.value)
 
     this.setState({ search: e.target.value, filteredApps: filteredApps, searchFlag: true })
+  }
+
+  getFilteredApps(apps, search) {
+    const filteredApps = apps.filter(item => {
+      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+
+    return filteredApps
   }
 
   componentDidMount() {
