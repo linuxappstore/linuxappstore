@@ -212,7 +212,13 @@ class MiniDrawer extends React.Component {
 
   getFilteredApps(apps, search) {
     const filteredApps = apps.filter(item => {
-      return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+      let result = item.name.toLowerCase().indexOf(search.toLowerCase())
+
+      if (result === -1 && item.summary) {
+          result = item.summary.toLowerCase().indexOf(search.toLowerCase())
+      }
+
+        return result !== -1
     });
 
     return filteredApps
