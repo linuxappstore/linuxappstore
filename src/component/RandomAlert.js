@@ -42,6 +42,8 @@ class RandomAlert extends React.Component {
   };
 
   componentDidMount() {
+    this.resetTimer()
+
     this.interval = setInterval(() => {
       let timer = this.state.timer;
       if (timer >= refreshRate) {
