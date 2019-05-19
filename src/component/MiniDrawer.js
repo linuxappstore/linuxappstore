@@ -23,8 +23,6 @@ import RandomAlert from './RandomAlert'
 
 const drawerWidth = 240;
 
-const baseUrl = 'https://linuxappstore.io'
-
 const categories = [
   { id: 0, src: './images/app_store.png', name: 'All' },
   { id: 1, src: './images/appimage.png', name: 'AppImage' },
@@ -179,6 +177,7 @@ class MiniDrawer extends React.Component {
   }
 
   populateData(type) {
+    let baseUrl = process.env.REACT_APP_BASE_URL
 
     let recentlyAdded = type === 0 ? `${baseUrl}/api/recentlyAdded?limit=${25}` : `${baseUrl}/api/recentlyAdded?type=${type}&limit=${25}`
     let recentlyUpdated = type === 0 ? `${baseUrl}/api/recentlyUpdated?limit=${25}` : `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${25}`
