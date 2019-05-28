@@ -64,13 +64,13 @@ class LinuxApp extends Component {
     if (item.type === 1) {
       // appimage
       if (!url) {
-        return "./images/appimage.png";
+        return "./icons/appimage.png";
       }
       return `${appImageIconBaseUrl}/${url}`;
     } else if (item.type === 3) {
       // snap
       if (!url.startsWith("https")) {
-        return "./images/missing_snap.svg";
+        return "./icons/missing_snap.svg";
       }
     }
 
@@ -86,13 +86,13 @@ class LinuxApp extends Component {
     const { data } = this.props;
 
     if (data.type === 1) {
-      return "./images/appimage.png";
+      return "./icons/appimage.png";
     } else if (data.type === 2) {
-      return "./images/flatpak.png";
+      return "./icons/flatpak.png";
     } else if (data.type === 3) {
-      return "./images/snap.png";
+      return "./icons/snap.png";
     } else {
-      return "./images/app_store.png";
+      return "./icons/app_store.png";
     }
   }
 

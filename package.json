@@ -1,6 +1,11 @@
 {
   "name": "linux-app-store",
+  "description": "A Universal App Store for Linux",
   "version": "0.3.3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linuxappstore/linuxappstore-frontend.git"
+  },
   "main": "src/main.js",
   "private": true,
   "homepage": ".",
@@ -8,8 +13,25 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "react-scripts": "^3.0.1"
+    "react-dom": "^16.8.3"
+  },
+  "author": {
+    "name": "Chad Adams",
+    "email": "nshusa99@gmail.com"
+  },
+  "build": {
+    "appId": "io.linuxappstore",
+    "productName": "Linux App Store",
+    "files": [
+      "build/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,7 +40,9 @@
     "eject": "react-scripts eject",
     "electron": "electron .",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "pack": "electron-builder --dir",
+    "package": "yarn run build && electron-builder build --publish never"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,6 +55,8 @@
   ],
   "devDependencies": {
     "electron": "^5.0.2",
-    "electron-builder": "^20.41.0"
+    "electron-builder": "^20.41.0",
+    "react-scripts": "^3.0.1",
+    "typescript": "^3.4.5"
   }
 }

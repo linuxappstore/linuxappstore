@@ -24,10 +24,10 @@ import RandomAlert from './RandomAlert'
 const drawerWidth = 240;
 
 const categories = [
-  { id: 0, src: './images/app_store.png', name: 'All' },
-  { id: 1, src: './images/appimage.png', name: 'AppImage' },
-  { id: 2, src: './images/flatpak.png', name: 'Flatpak' },
-  { id: 3, src: './images/snap.png', name: 'Snap' },
+  { id: 0, src: './icons/app_store.png', name: 'All' },
+  { id: 1, src: './icons/appimage.png', name: 'AppImage' },
+  { id: 2, src: './icons/flatpak.png', name: 'Flatpak' },
+  { id: 3, src: './icons/snap.png', name: 'Snap' },
 ]
 
 const styles = theme => ({

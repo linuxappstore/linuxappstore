@@ -24,3 +24,5 @@ yarn-error.log*
 src/data
 
 \.vscode/settings\.json
+
+dist/
