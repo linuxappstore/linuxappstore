@@ -18,10 +18,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import AppHorizontalList from './AppHorizontalList.js';
+import AppHorizontalList from './AppHorizontalList';
 import RandomAlert from './RandomAlert'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import AppDetailComponent from './AppDetailComponent.js'
+import AppDetailComponent from './AppDetailComponent'
 
 const drawerWidth = 240;
 
