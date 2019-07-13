@@ -26,3 +26,5 @@ src/data
 \.vscode/settings\.json
 
 dist/
+
+\.cache/
