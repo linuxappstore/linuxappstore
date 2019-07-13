@@ -58,6 +58,6 @@
     "electron": "^5.0.2",
     "electron-builder": "^20.41.0",
     "react-scripts": "^3.0.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.3"
   }
 }
