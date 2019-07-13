@@ -6,7 +6,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from "@material-ui/icons/Info";
-import classNames from "classnames";
+import clsx from "clsx";
 
 const styles = theme => ({
   content: {
@@ -24,7 +24,7 @@ const styles = theme => ({
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing()
   },
   snackBarRoot: {
     position: "inherit",
@@ -151,15 +151,15 @@ class RandomAlert extends React.Component {
         }}
         open={this.state.open}
         autoHideDuration={6000}
-        className={classNames(classes.snackBarRoot)}
+        className={clsx(classes.snackBarRoot)}
       >
         <SnackbarContent
-          className={classNames(classes.info, className)}
+          className={clsx(classes.info, className)}
           aria-describedby="client-snackbar"
           message={
             <span id="client-snackbar" className={classes.message}>
               <InfoIcon
-                className={classNames(classes.icon, classes.iconVariant)}
+                className={clsx(classes.icon, classes.iconVariant)}
               />
               {this.messages()[this.state.msgIdx]}
             </span>

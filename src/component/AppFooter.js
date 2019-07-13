@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core';
-import classNames from 'classnames';
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 const styles = theme => ({
     footer: {
@@ -20,7 +20,7 @@ class AppFooter extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            <footer className={classNames(classes.footer)}><small>&copy; Copyright 2019, StellaSoft - {process.env.REACT_APP_VERSION}</small></footer>
+            <footer className={clsx(classes.footer)}><small>&copy; Copyright 2019, StellaSoft - {process.env.REACT_APP_VERSION}</small></footer>
         )
     }
 }

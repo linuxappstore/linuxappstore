@@ -3,12 +3,12 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fade from '@material-ui/core/Fade';
 import { Link } from 'react-router-dom';
+import clsx from 'clsx';
 
 const appImageIconBaseUrl =
   "https://gitcdn.xyz/repo/AppImage/appimage.github.io/master/database";
@@ -102,7 +102,7 @@ class LinuxApp extends Component {
     let show = category === 0;
     return show ? (
       <img
-        className={classNames(classes.appTypeIcon, "img-fluid")}
+        className={clsx(classes.appTypeIcon, "img-fluid")}
         src={this.getAppTypeIcon()}
         alt="App Type Icon"
       />
@@ -122,16 +122,16 @@ class LinuxApp extends Component {
   renderCard() {
     const { data, classes } = this.props;
       return (
-        <Card className={classNames(classes.card)}>
+        <Card className={clsx(classes.card)}>
           {this.showAppTypeIcon()}
 
           <Link to={`/app/${data.id}`}>
           <CardActionArea
-            className={classNames(classes.actionArea)}
+            className={clsx(classes.actionArea)}
           >
 
             <Typography
-              className={classNames(classes.title)}
+              className={clsx(classes.title)}
               color="textSecondary"
               gutterBottom
             >
@@ -140,7 +140,7 @@ class LinuxApp extends Component {
 
             <CardContent>
               <img
-                className={classNames(classes.icon, classes.center)}
+                className={clsx(classes.icon, classes.center)}
                 src={this.getDesktopImage(data)}
                 alt={data.name}
               />

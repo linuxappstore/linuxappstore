@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -74,7 +74,7 @@ const styles = theme => ({
     marginLeft: '10px'
   },
   searchIcon: {
-    width: theme.spacing.unit * 9,
+    width: theme.spacing(9),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -110,9 +110,9 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
+    width: theme.spacing(7 + 1),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
+      width: theme.spacing(9 + 1),
     },
   },
   toolbar: {
@@ -139,10 +139,10 @@ const styles = theme => ({
     width: '100%',
   },
   inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingTop: theme.spacing(),
+    paddingRight: theme.spacing(),
+    paddingBottom: theme.spacing(),
+    paddingLeft: theme.spacing(10),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -304,17 +304,17 @@ class MiniDrawer extends React.Component {
         <CssBaseline />
         <AppBar
           position="fixed"
-          className={classNames(classes.appBar, {
+          className={clsx(classes.appBar, {
             [classes.appBarShift]: this.state.open,
           })}
           ref={(appBarElement) => this.appBarElement = appBarElement}
         >
-          <Toolbar className={classNames(classes.toolbarRoot)} disableGutters={!this.state.open}>
+          <Toolbar className={clsx(classes.toolbarRoot)} disableGutters={!this.state.open}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, {
+              className={clsx(classes.menuButton, {
                 [classes.hide]: this.state.open,
               })}
             >
@@ -329,12 +329,12 @@ class MiniDrawer extends React.Component {
         </AppBar>
         <Drawer
           variant="permanent"
-          className={classNames(classes.drawer, {
+          className={clsx(classes.drawer, {
             [classes.drawerOpen]: this.state.open,
             [classes.drawerClose]: !this.state.open,
           })}
           classes={{
-            paper: classNames({
+            paper: clsx({
               [classes.drawerOpen]: this.state.open,
               [classes.drawerClose]: !this.state.open,
             }),
