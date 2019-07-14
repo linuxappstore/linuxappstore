@@ -1,3 +1,9 @@
 # dependencies
 /web/node_modules
 
+
+server/src/bin/
+
+server/src/appsettings\.json
+
+server/src/obj/
