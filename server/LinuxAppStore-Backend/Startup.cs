@@ -36,7 +36,8 @@ namespace LinuxAppStore_Backend
             services.AddEntityFrameworkNpgsql()
             .AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                options.UseNpgsql(connectionString);
             })
             .AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {

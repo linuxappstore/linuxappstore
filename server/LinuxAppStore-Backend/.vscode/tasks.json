@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/server/LinuxAppStore-Backend/LinuxAppStore-Backend.csproj"
+                "${workspaceFolder}/LinuxAppStore-Backend.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/server/LinuxAppStore-Backend/LinuxAppStore-Backend.csproj"
+                "${workspaceFolder}/LinuxAppStore-Backend.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/server/LinuxAppStore-Backend/LinuxAppStore-Backend.csproj"
+                "${workspaceFolder}/LinuxAppStore-Backend.csproj"
             ],
             "problemMatcher": "$tsc"
         }
