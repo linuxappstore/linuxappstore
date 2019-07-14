@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RootNamespace>LinuxAppStore_Backend</RootNamespace>
+    <RootNamespace>src</RootNamespace>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>554fed7f-3d9c-4942-80e3-93622c6ac000</UserSecretsId>
   </PropertyGroup>
