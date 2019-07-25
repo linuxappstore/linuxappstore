@@ -8,8 +8,4 @@ server/src/appsettings\.json
 
 server/src/obj/
 
-server/LinuxAppStore-Backend/bin/
-
-server/LinuxAppStore-Backend/appsettings\.json
-
 scripts/settings\.json

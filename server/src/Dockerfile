@@ -21,4 +21,4 @@ EXPOSE 5000
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:5000
 
-ENTRYPOINT ["dotnet", "LinuxAppStore-Backend.dll"]
+ENTRYPOINT ["dotnet", "server.dll"]
