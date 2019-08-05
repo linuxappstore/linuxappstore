@@ -18,30 +18,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import AppHorizontalList from './AppHorizontalList';
+import AppHorizontalList from './AppHorizontalList.js';
 import RandomAlert from './RandomAlert'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import AppDetailComponent from './AppDetailComponent'
 
 const drawerWidth = 240;
 
-const sources = [
+const categories = [
   { id: 0, src: './icons/app_store.png', name: 'All' },
   { id: 1, src: './icons/appimage.png', name: 'AppImage' },
   { id: 2, src: './icons/flatpak.png', name: 'Flatpak' },
   { id: 3, src: './icons/snap.png', name: 'Snap' },
-]
-
-const categories = [
-  { id: 2, src: './icons/audio.png', name: 'Audio' },
-  { id: 3, src: './icons/video.png', name: 'Video' },
-  { id: 4, src: './icons/code.png', name: 'Development' },
-  { id: 5, src: './icons/education.png', name: 'Education' },
-  { id: 6, src: './icons/game.png', name: 'Game' },
-  { id: 8, src: './icons/network.png', name: 'Social' },
-  { id: 9, src: './icons/office.png', name: 'Office' },
-  { id: 10, src: './icons/science.png', name: 'Science' },
-  { id: 13, src: './icons/utility.png', name: 'Utility' },
 ]
 
 const styles = theme => ({
@@ -110,9 +96,9 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7 + 1),
+    width: theme.spacing(8),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9 + 1),
+      width: theme.spacing(10),
     },
   },
   toolbar: {
@@ -165,7 +151,6 @@ class MiniDrawer extends React.Component {
     recentlyUpdated: [],
     search: '',
     appType: 0,
-    category: -1,
     contentWidth: 0,
     contentHeight: 0,
     searchFlag: false
@@ -179,19 +164,9 @@ class MiniDrawer extends React.Component {
     this.setState({ open: false });
   };
 
-  onSourceClick = (type) => {
-    if (type === 0) {
-      this.setState({ appType: type, category: -1 })
-    } else {
-      this.setState({ appType: type })
-    }
-    this.populateData(type)
-  };
-
   onCategoryClick = (type) => {
-    let categoryId = categories[type].id
-    this.setState({ category: categoryId })
-    this.populateData(this.state.appType, categoryId)
+    this.setState({ appType: type })
+    this.populateData(type)
   };
 
   showHorizontalList(items, shuffle = false, filterable = false) {
@@ -200,17 +175,13 @@ class MiniDrawer extends React.Component {
       show ? <AppHorizontalList items={items} category={this.state.appType} shuffle={shuffle} /> : filterable && this.state.searchFlag ? <p style={{marginLeft: '48px', height: '135px', marginBottom: '0px'}}>No results</p> : null
     )
   }
-  
-  populateData(type, categoryId) {
+
+  populateData(type) {
     let baseUrl = process.env.REACT_APP_BASE_URL
 
     let recentlyAdded = type === 0 ? `${baseUrl}/api/recentlyAdded?limit=${25}` : `${baseUrl}/api/recentlyAdded?type=${type}&limit=${25}`
     let recentlyUpdated = type === 0 ? `${baseUrl}/api/recentlyUpdated?limit=${25}` : `${baseUrl}/api/recentlyUpdated?type=${type}&limit=${25}`
     let apps = type === 0 ? `${baseUrl}/api/apps` : `${baseUrl}/api/apps?type=${type}`
-
-    if (categoryId && categoryId !== -1) {
-      apps = `${baseUrl}/api/GetAppsForCategory?categoryId=${categoryId}`
-    }
 
     fetch(recentlyAdded)
       .then((response) => response.json())
@@ -348,17 +319,8 @@ class MiniDrawer extends React.Component {
           </div>
           <Divider />
           <List>
-            {sources.map((item, index) =>
-              <ListItem button style={{ backgroundColor: this.state.appType === index ? "rgba(0, 0, 0, 0.08)" : "" }} key={item.name} onClick={() => this.onSourceClick(index)}>
-                <img className="icon" src={item.src} alt={item.name} style={{ width: 24, marginRight: 15 }} />
-                <ListItemText primary={item.name} style={{ display: this.state.open ? '' : 'none' }}></ListItemText>
-              </ListItem>
-            )}
-          </List>
-          <Divider />
-          <List>
             {categories.map((item, index) =>
-              <ListItem button style={{ backgroundColor: this.state.category === index ? "rgba(0, 0, 0, 0.08)" : "" }} key={item.name} onClick={() => this.onCategoryClick(index)}>
+              <ListItem button style={{ backgroundColor: this.state.appType === index ? "rgba(0, 0, 0, 0.08)" : "" }} key={item.name} onClick={() => this.onCategoryClick(index)}>
                 <img className="icon" src={item.src} alt={item.name} style={{ width: 24, marginRight: 15 }} />
                 <ListItemText primary={item.name} style={{ display: this.state.open ? '' : 'none' }}></ListItemText>
               </ListItem>
@@ -367,31 +329,19 @@ class MiniDrawer extends React.Component {
         </Drawer>
         <main className={classes.content}>
 
-          <Router>
+          <RandomAlert />
 
-            <Route path="/" exact={true} render={() => (
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>{categories[this.state.appType].name}</h3> <span>({this.state.apps.length})</span>
+          {this.showHorizontalList(filteredApps, false, true)}          
 
-              <React.Fragment>
-                <RandomAlert />
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Added</h3>
+          {this.showHorizontalList(this.state.recentlyAdded)}
 
-                <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>{sources[this.state.appType].name}</h3> <span>({this.state.apps.length})</span>
-                {this.showHorizontalList(filteredApps, false, true)}          
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Updated</h3>
+          {this.showHorizontalList(this.state.recentlyUpdated)}
 
-                <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Added</h3>
-                {this.showHorizontalList(this.state.recentlyAdded)}
-
-                <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Updated</h3>
-                {this.showHorizontalList(this.state.recentlyUpdated)}
-
-                <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Discover</h3>
-                {this.showHorizontalList(this.state.apps, true, false)}
-              </React.Fragment>
-            )} />
-
-            <Route path="/app/:id" component={AppDetailComponent} />
-              
-          </Router>
-
+          <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Discover</h3>
+          {this.showHorizontalList(this.state.apps, true, false)}
 
         </main>
       </div>

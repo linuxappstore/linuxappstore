@@ -3,12 +3,11 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CardActionArea from "@material-ui/core/CardActionArea";
+import clsx from 'clsx';
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fade from '@material-ui/core/Fade';
-import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 
 const appImageIconBaseUrl =
   "https://gitcdn.xyz/repo/AppImage/appimage.github.io/master/database";
@@ -125,11 +124,10 @@ class LinuxApp extends Component {
         <Card className={clsx(classes.card)}>
           {this.showAppTypeIcon()}
 
-          <Link to={`/app/${data.id}`}>
           <CardActionArea
             className={clsx(classes.actionArea)}
+            onClick={this.onClick.bind(this)}
           >
-
             <Typography
               className={clsx(classes.title)}
               color="textSecondary"
@@ -146,8 +144,6 @@ class LinuxApp extends Component {
               />
             </CardContent>
           </CardActionArea>
-              </Link>
-
         </Card>
       )
   }

@@ -5,29 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
-            "type": "coreclr",
+            "name": "Go Run",
+            "type": "go",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/server/src/bin/Debug/netcoreapp2.2/server.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/server/src",
-            "stopAtEntry": false,
-            "launchBrowser": {
-                "enabled": true
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/server/src/Views"
-            }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "mode": "debug",
+            "program": "${file}"
         },
         {
             "type": "chrome",

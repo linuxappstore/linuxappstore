@@ -9,3 +9,5 @@ server/src/appsettings\.json
 server/src/obj/
 
 scripts/settings\.json
+
+server/src/db-settings\.go
