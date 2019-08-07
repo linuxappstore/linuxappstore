@@ -33,7 +33,7 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("/api/apps", getApps)
+	http.HandleFunc("/api/apps", apps)
 	http.HandleFunc("/api/recentlyAdded", getRecentlyAdded)
 	http.HandleFunc("/api/recentlyUpdated", getRecentlyUpdated)
 
