@@ -14,7 +14,7 @@ def getSettings(file_name):
     except ValueError as e:
         print(e)
 
-def getFeed(url):
+def getJson(url):
     try:
         r = requests.get(url)
         return r.json()
@@ -26,11 +26,11 @@ def postData(url, content):
     requests.post(url, json=content)
 
 def scrap():
-    feedJson = getFeed("https://flathub.org/api/v1/apps/")
+    feedJson = getJson("https://flathub.org/api/v1/apps/")
     if feedJson is None:
         return
 
-    settings = getSettings("settings.json")
+    settings = getSettings("scripts/settings.json")
     if settings is None:
         return
     
@@ -39,34 +39,51 @@ def scrap():
         print("ApiKey does not exist.")
         return
 
-    postUrl = settings["PostUrl"]
+    baseUrl = settings["BaseUrl"]
+    if not baseUrl:
+        print("BaseUrl does not exist")
+        return
+
+    postUrl = baseUrl + settings["PostUrl"]
     if not postUrl:
         print("PostUrl does not exist.")
         return
         
     payload = {}
     payload["ApiKey"] = apiKey
-    Apps = []
+    app_map = {}
+    apps = getJson("http://localhost:5000/api/apps")
+
+    for item in apps:
+        app_map[item["identifier"]] = item
 
     for item in feedJson:
         name = item["name"]
+
         if not name:
             continue
+    
         icon = item["iconDesktopUrl"]
+
         if not str(icon).startswith("https"):
             icon = "https://flathub.org" + icon
+
         identifier = item["flatpakAppId"]
+
         if not identifier:
             print("App={} missing identifier".format(name))
             continue
+
         src = "https://flathub.org/apps/details/" + identifier
         date_added = item["inStoreSinceDate"]
         created_at_datetime = dateutil.parser.parse(date_added)
         created_at = created_at_datetime.strftime("%Y-%m-%dT%H:%M:%S")
         last_updated_datetime = datetime.datetime.now()
         last_updated = item["currentReleaseDate"]
+
         if last_updated:
             last_updated_datetime = dateutil.parser.parse(last_updated)
+
         last_updated = last_updated_datetime.strftime("%Y-%m-%dT%H:%M:%S")
         current_version = item["currentReleaseVersion"]
 
@@ -81,15 +98,23 @@ def scrap():
         print("\tcurrent_version: {}".format(current_version))
         print("\tsummary: {}".format(summary))
 
-        categories = []
-        
         app = {"id": 0, "name":name, "type":2, "dateAdded":created_at, "lastUpdated":last_updated,
-        "src":src, "icon":icon, "currentVersion":current_version, "identifier":identifier, "summary": summary,
-        "linuxAppCategorys": categories}
-        Apps.append(app)
-    payload["Apps"] = Apps
+            "src":src, "icon":icon, "currentVersion":current_version, "identifier":identifier, "summary": summary}
+
+        if app_map[identifier] is None:
+            app_map[identifier] = app
+        else:
+            updateApp(app_map[identifier], app)            
+
+    payload["Apps"] = list(app_map.values())
     postData(postUrl, payload)
-    scrapCategories()
+
+def updateApp(old_app, new_app):
+    old_app["name"] = new_app["name"]
+    old_app["lastUpdated"] = new_app["lastUpdated"]
+    old_app["src"] = new_app["src"]
+    old_app["icon"] = new_app["icon"]
+    old_app["currentVersion"] = new_app["currentVersion"]
 
 def scrapCategories():
     settings = getSettings("settings.json")
@@ -106,7 +131,7 @@ def scrapCategories():
         print("PostCategoryUrl does not exist.")
         return
 
-    apps = getFeed("http://localhost:5000/api/apps?type=2")
+    apps = getJson("http://localhost:5000/api/apps?type=2")
     dict = {}
     for item in apps:
         dict[item["name"]] = item["id"]
@@ -127,7 +152,7 @@ def scrapCategories():
     postData(postCategoryUrl, payload)
 
 def scrapAudioVideoCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/AudioVideo")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/AudioVideo")
     if feedJson is None:
         return
     for item in feedJson:
@@ -135,7 +160,7 @@ def scrapAudioVideoCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 1})
 
 def scrapDevelopmentCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Development")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Development")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -143,7 +168,7 @@ def scrapDevelopmentCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 4})
 
 def scrapEducationCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Education")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Education")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -151,7 +176,7 @@ def scrapEducationCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 5})
 
 def scrapGameCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Game")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Game")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -159,7 +184,7 @@ def scrapGameCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 6})
 
 def scrapGraphicsCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Graphics")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Graphics")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -167,7 +192,7 @@ def scrapGraphicsCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 7})
 
 def scrapNetworkCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Network")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Network")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -175,7 +200,7 @@ def scrapNetworkCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 8})
 
 def scrapOfficeCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Office")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Office")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -183,7 +208,7 @@ def scrapOfficeCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 9})
 
 def scrapScienceCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Science")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Science")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -191,7 +216,7 @@ def scrapScienceCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 10})
 
 def scrapSettingsCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Settings")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Settings")
     if feedJson is None:
         return 
     for item in feedJson:
@@ -199,7 +224,7 @@ def scrapSettingsCategory(dict, assoc):
             assoc.append({"linuxAppId": dict[item["name"]], "categoryId": 11})
 
 def scrapUtilityCategory(dict, assoc):
-    feedJson = getFeed("https://flathub.org/api/v1/apps/category/Utility")
+    feedJson = getJson("https://flathub.org/api/v1/apps/category/Utility")
     if feedJson is None:
         return 
     for item in feedJson:
