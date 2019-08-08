@@ -128,19 +128,48 @@ def scrap():
         "src":src, "icon":icon, "currentVersion":current_version, "identifier":identifier, "summary": summary}
 
         if identifier in app_map:
-            updateApp(app_map[identifier], app)            
+            updateApp(app_map, app)            
         else:
             app_map[identifier] = app            
         
     payload["Apps"] = list(app_map.values())
     postData(postUrl, payload)
 
-def updateApp(old_app, new_app):
-    old_app["name"] = new_app["name"]
-    old_app["lastUpdated"] = new_app["lastUpdated"]
-    old_app["src"] = new_app["src"]
-    old_app["icon"] = new_app["icon"]
-    old_app["currentVersion"] = new_app["currentVersion"]
+def updateApp(app_map, new_app):
+    old_app = app_map[new_app["identifier"]]
+
+    name = old_app["name"]
+    new_name = new_app["name"]
+
+    updated = False
+
+    if name != new_name: 
+        old_app["name"] = new_name
+        updated = True
+
+    src = old_app["src"]
+    new_src = new_app["src"]
+
+    if src != new_src:   
+        old_app["src"] = new_src
+        updated = True
+
+    icon = old_app["icon"]
+    new_icon = new_app["icon"]
+
+    if icon != new_icon:
+        old_app["icon"] = new_icon
+        updated = True
+
+    current_version = old_app["currentVersion"]
+    new_current_version = new_app["currentVersion"]
+
+    if current_version != new_current_version:
+        old_app["currentVersion"] = new_current_version
+        updated = True
+    
+    if not updated:
+        del app_map[new_app["identifier"]]
 
 def scrapCategories():
     settings = getSettings("settings.json")
