@@ -15,7 +15,7 @@ def getSettings(file_name):
     except ValueError as e:
         print(e)
 
-def getFeed(url):
+def getJson(url):
     try:
         r = requests.get(url)
         return r.json()
@@ -27,11 +27,11 @@ def postData(url, content):
     requests.post(url, json=content)
 
 def scrap():
-    feedJson = getFeed("https://search.apps.ubuntu.com/api/v1/search")
+    feedJson = getJson("https://search.apps.ubuntu.com/api/v1/search")
     if feedJson is None:
         return
 
-    settings = getSettings("settings.json")
+    settings = getSettings("scripts/settings.json")
     if settings is None:
         return
     
@@ -40,7 +40,12 @@ def scrap():
         print("ApiKey does not exist.")
         return
 
-    postUrl = settings["PostUrl"]
+    baseUrl = settings["BaseUrl"]
+    if not baseUrl:
+        print("BaseUrl does not exist")
+        return
+
+    postUrl = baseUrl + settings["PostUrl"]
     if not postUrl:
         print("PostUrl does not exist.")
         return
@@ -59,7 +64,11 @@ def scrap():
 
     payload = {}
     payload["ApiKey"] = apiKey
-    Apps = []
+    app_map = {}
+    apps = getJson("http://localhost:5000/api/apps?type=3")
+
+    for item in apps:
+        app_map[item["identifier"]] = item
 
     for snap in snaps:
         title = snap["title"]
@@ -104,7 +113,8 @@ def scrap():
 
         summary = snap["summary"]
 
-        print("name: {} identifier={}".format(title, identifier))
+        print("name: {}".format(title))
+        print("\tidentifier: {}".format(identifier))
         print("\ttype: 3")
         print("\ticon: {}".format(icon))
         print("\tsrc: {}".format(src))
@@ -113,16 +123,24 @@ def scrap():
         print("\tlast_updated: {}".format(last_updated_formatted))
         print("\tsummary: {}".format(summary))
         print()
-        categories = []
-        app = {"id": 0, "name":title, "type":3, "dateAdded":date_added_formatted, "lastUpdated":last_updated_formatted,
-        "src":src, "icon":icon, "currentVersion":current_version, "identifier":identifier, "summary": summary,
-        "linuxAppCategorys": categories}
 
-        Apps.append(app)
+        app = {"id": 0, "name":title, "type":3, "dateAdded":date_added_formatted, "lastUpdated":last_updated_formatted,
+        "src":src, "icon":icon, "currentVersion":current_version, "identifier":identifier, "summary": summary}
+
+        if identifier in app_map:
+            updateApp(app_map[identifier], app)            
+        else:
+            app_map[identifier] = app            
         
-    payload["Apps"] = Apps
+    payload["Apps"] = list(app_map.values())
     postData(postUrl, payload)
-    scrapCategories()
+
+def updateApp(old_app, new_app):
+    old_app["name"] = new_app["name"]
+    old_app["lastUpdated"] = new_app["lastUpdated"]
+    old_app["src"] = new_app["src"]
+    old_app["icon"] = new_app["icon"]
+    old_app["currentVersion"] = new_app["currentVersion"]
 
 def scrapCategories():
     settings = getSettings("settings.json")
@@ -139,7 +157,7 @@ def scrapCategories():
         print("PostCategoryUrl does not exist.")
         return
 
-    jsonFeed = getFeed("http://localhost:5000/api/apps?type=3")
+    jsonFeed = getJson("http://localhost:5000/api/apps?type=3")
     nmap = {}
     for item in jsonFeed:
         nmap[item["name"]] = item["id"]
