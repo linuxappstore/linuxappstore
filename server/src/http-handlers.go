@@ -61,21 +61,17 @@ func saveApps(w http.ResponseWriter, r *http.Request) {
 			updateApp(app)
 		}
 	}
-
-	fmt.Println(t.ApiKey)
 }
 
 func insertApp(app LinuxApp) {
 	currentTime := time.Now()
-	var appId int
+	var appID int
 	err := db.QueryRow(`INSERT INTO linux_app(name, type, last_updated, src, icon, current_version, identifier) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-		app.Name, app.Type, currentTime, app.Src, app.Icon, app.CurrentVersion, app.Identifier).Scan(&appId)
+		app.Name, app.Type, currentTime, app.Src, app.Icon, app.CurrentVersion, app.Identifier).Scan(&appID)
 
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println("New id:", appId)
 }
 
 func updateApp(app LinuxApp) {
@@ -94,7 +90,7 @@ func updateApp(app LinuxApp) {
 		panic(err)
 	}
 
-	fmt.Println(rowsUpdated)
+	_ = rowsUpdated
 }
 
 func getApps(w http.ResponseWriter, r *http.Request) {
