@@ -52,7 +52,7 @@ def scrap():
     payload = {}
     payload["ApiKey"] = apiKey
     app_map = {}
-    apps = getJson("http://localhost:5000/api/apps")
+    apps = getJson("http://localhost:5000/api/apps?type=2")
 
     for item in apps:
         app_map[item["identifier"]] = item
