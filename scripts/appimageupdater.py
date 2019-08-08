@@ -63,7 +63,7 @@ def postData(url, content):
     print("Posting data to url={} len={}".format(url, len(content["Apps"])))
     requests.post(url, json=content)
 
-def getAppImageFeed(url):
+def getJson(url):
     try:
         r = requests.get(url)
         return r.json()
@@ -81,7 +81,7 @@ def getIdentifier(item, name):
     return name
 
 def scrap():
-    feedJson = getAppImageFeed('https://appimage.github.io/feed.json')
+    feedJson = getJson('https://appimage.github.io/feed.json')
     if feedJson is None:
         return
 
@@ -93,7 +93,7 @@ def scrap():
 
     print("Items length={}".format(len(items)))
 
-    settings = getSettings("settings.json")
+    settings = getSettings("scripts/settings.json")
     if settings is None:
         return
 
@@ -102,7 +102,12 @@ def scrap():
         print("ApiKey does not exist.")
         return
 
-    postUrl = settings["PostUrl"]
+    baseUrl = settings["BaseUrl"]
+    if not baseUrl:
+        print("BaseUrl does not exist")
+        return
+
+    postUrl = baseUrl + settings["PostUrl"]
     if not postUrl:
         print("AppImagePostUrl does not exist.")
         return
@@ -115,7 +120,11 @@ def scrap():
 
     payload = {}
     payload["ApiKey"] = apiKey
-    Apps = []
+    app_map = {}
+    apps = getJson("http://localhost:5000/api/apps?type=1")
+
+    for item in apps:
+        app_map[item["identifier"]] = item
 
     g = github.Github(githubUser, githubPass)  
 
@@ -172,11 +181,24 @@ def scrap():
             published_at = published_at_time.strftime("%Y-%m-%dT%H:%M:%S")
             
         print(g.rate_limiting)
+
         app = {"id": 0, "name":name, "type":1, "dateAdded":created_at, "lastUpdated":published_at, "src":src, "icon":icon, "currentVersion":tag_name,
          "identifier":identifier, "summary": summary}
-        Apps.append(app)
-    payload["Apps"] = Apps
+
+        if identifier in app_map:
+            updateApp(app_map[identifier], app)            
+        else:
+            app_map[identifier] = app   
+
+    payload["Apps"] = list(app_map.values())
     postData(postUrl, payload)
+
+def updateApp(old_app, new_app):
+    old_app["name"] = new_app["name"]
+    old_app["lastUpdated"] = new_app["lastUpdated"]
+    old_app["src"] = new_app["src"]
+    old_app["icon"] = new_app["icon"]
+    old_app["currentVersion"] = new_app["currentVersion"]
 
 scrap()
 
