@@ -11,3 +11,5 @@ server/src/obj/
 scripts/settings\.json
 
 server/src/private\.go
+
+server/src/src
