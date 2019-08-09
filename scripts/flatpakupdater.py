@@ -2,6 +2,7 @@ import json
 import requests
 import datetime
 import dateutil.parser
+import os.path
 
 def getSettings(file_name):    
     try:
@@ -30,7 +31,12 @@ def scrap():
     if feedJson is None:
         return
 
-    settings = getSettings("scripts/settings.json")
+    settings_path = "scripts/settings.json"
+
+    if not os.path.isfile(settings_path):
+        settings_path = "settings.json"
+
+    settings = getSettings(settings_path)
     if settings is None:
         return
     

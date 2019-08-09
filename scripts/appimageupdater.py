@@ -3,6 +3,7 @@ import requests
 import datetime
 import dateutil.parser
 import github
+import os.path
 
 def getSettings(file_name):    
     try:
@@ -93,7 +94,12 @@ def scrap():
 
     print("Items length={}".format(len(items)))
 
-    settings = getSettings("scripts/settings.json")
+    settings_path = "scripts/settings.json"
+
+    if not os.path.isfile(settings_path):
+        settings_path = "settings.json"
+
+    settings = getSettings(settings_path)
     if settings is None:
         return
 
