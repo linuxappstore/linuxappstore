@@ -20,6 +20,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppHorizontalList from './AppHorizontalList.js';
 import RandomAlert from './RandomAlert'
+import { Button } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -57,7 +58,8 @@ const styles = theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: '5px',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    width: '300px',
   },
   searchIcon: {
     width: theme.spacing(9),
@@ -67,6 +69,9 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  searchWrapper: {
+    flexGrow: 1,
   },
   menuButton: {
     marginLeft: 12,
@@ -172,7 +177,7 @@ class MiniDrawer extends React.Component {
   showHorizontalList(items, shuffle = false, filterable = false) {
     let show = items.length > 0
     return (
-      show ? <AppHorizontalList items={items} category={this.state.appType} shuffle={shuffle} /> : filterable && this.state.searchFlag ? <p style={{marginLeft: '48px', height: '135px', marginBottom: '0px'}}>No results</p> : null
+      show ? <AppHorizontalList items={items} category={this.state.appType} shuffle={shuffle} /> : filterable && this.state.searchFlag ? <p style={{ marginLeft: '48px', height: '135px', marginBottom: '0px' }}>No results</p> : null
     )
   }
 
@@ -199,7 +204,7 @@ class MiniDrawer extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         let filteredApps = this.getFilteredApps(responseJson, this.state.search)
-        
+
         this.setState({ apps: responseJson, filteredApps: filteredApps })
       })
   }
@@ -215,10 +220,10 @@ class MiniDrawer extends React.Component {
       let result = item.name.toLowerCase().indexOf(search.toLowerCase())
 
       if (result === -1 && item.summary) {
-          result = item.summary.toLowerCase().indexOf(search.toLowerCase())
+        result = item.summary.toLowerCase().indexOf(search.toLowerCase())
       }
 
-        return result !== -1
+      return result !== -1
     });
 
     return filteredApps
@@ -233,35 +238,35 @@ class MiniDrawer extends React.Component {
   renderSearch(disableSearch, classes) {
     return (
       disableSearch ?
-      <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        placeholder="Search…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        autoFocus={true}
-        readOnly={true}
-      />
-    </div>
-     :
-     <div className={classes.search}>
-     <div className={classes.searchIcon}>
-       <SearchIcon />
-     </div>
-     <InputBase
-       placeholder="Search…"
-       classes={{
-         root: classes.inputRoot,
-         input: classes.inputInput,
-       }}
-       onChange={this.onSearch}
-       autoFocus={true}
-     />
-   </div>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Search…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            autoFocus={true}
+            readOnly={true}
+          />
+        </div>
+        :
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Search…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            onChange={this.onSearch}
+            autoFocus={true}
+          />
+        </div>
     )
   }
 
@@ -295,7 +300,11 @@ class MiniDrawer extends React.Component {
               App Store
             </Typography>
 
+            <div className={clsx(classes.searchWrapper)}>
               {this.renderSearch(disableSearch, classes)}
+            </div>
+
+            <Button color="inherit" style={{ marginRight: '5px' }}>Login</Button>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -332,7 +341,7 @@ class MiniDrawer extends React.Component {
           <RandomAlert />
 
           <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>{categories[this.state.appType].name}</h3> <span>({this.state.apps.length})</span>
-          {this.showHorizontalList(filteredApps, false, true)}          
+          {this.showHorizontalList(filteredApps, false, true)}
 
           <h3 style={{ marginTop: 15, marginBottom: 15, marginLeft: 48, display: 'inline-block' }}>Recently Added</h3>
           {this.showHorizontalList(this.state.recentlyAdded)}
