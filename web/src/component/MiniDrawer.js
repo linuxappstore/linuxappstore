@@ -19,8 +19,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppHorizontalList from './AppHorizontalList.js';
-import RandomAlert from './RandomAlert'
-import { Button } from '@material-ui/core';
+import RandomAlert from './RandomAlert';
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -144,7 +144,16 @@ const styles = theme => ({
     flexWrap: 'nowrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
-  }
+  },
+  navLink: {
+    color: "white",
+    position: 'absolute',
+    right: 0,
+    "&:hover": {
+      color: 'white',
+      textDecoration: 'none'
+    }
+  },
 });
 
 class MiniDrawer extends React.Component {
@@ -304,7 +313,10 @@ class MiniDrawer extends React.Component {
               {this.renderSearch(disableSearch, classes)}
             </div>
 
-            <Button color="inherit" style={{ marginRight: '5px' }}>Login</Button>
+            <Link to="/login" style={{ marginRight: '5px' }} className={classes.navLink}>
+              Login
+            </Link>
+        
           </Toolbar>
         </AppBar>
         <Drawer
