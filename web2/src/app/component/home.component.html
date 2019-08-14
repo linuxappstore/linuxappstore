@@ -17,7 +17,10 @@
       fixedTopGap="56"
     >
       <mat-nav-list>
-        <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
+        <mat-list-item *ngFor="let type of appTypes">
+          <img class="sidebar-icon mr-10" src="{{type.icon}}" />
+          {{type.description}}
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
 

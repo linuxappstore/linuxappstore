@@ -8,6 +8,30 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 })
 export class HomeComponent implements OnDestroy {
 
+  appTypes = [
+    {
+      type: 0,
+      description: 'All',
+      icon: '../../assets/icons/app_store.png'
+    },
+    {
+      type: 1,
+      description: 'AppImage',
+      icon: '../../assets/icons/appimage.png'
+    },
+    {
+      type: 2,
+      description: 'Flatpak',
+      icon: '../../assets/icons/flatpak.png'
+    },
+    {
+      type: 3,
+      description: 'Snap',
+      icon: '../../assets/icons/snap.png'
+    }
+  ]
+
+
   mobileQuery: MediaQueryList;
 
   fillerNav = Array.from({length: 5}, (_, i) => `Nav Item ${i + 1}`);

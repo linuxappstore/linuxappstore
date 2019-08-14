@@ -29,3 +29,13 @@ h1.example-app-name {
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
+
+img.sidebar-icon {
+  height: auto;
+  display: block;
+  width: 24px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
