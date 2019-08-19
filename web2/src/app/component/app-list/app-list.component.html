@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+
+<div class="wrapper">
+    <span class="control">
+        <fa-icon [icon]="faChevronLeft"></fa-icon>
+      </span>
+  <div class="h-scroll">
+    <div *ngFor="let item of apps">
+        <app-linux-app [app]="item"></app-linux-app>
+    </div>
+  </div>
+  <span class="control">
+    <fa-icon [icon]="faChevronRight"></fa-icon>
+  </span>
+</div>

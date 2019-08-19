@@ -1,0 +1,35 @@
+.app-card-wrapper {
+  width: 128px;
+  height: 128px;
+  margin: 5px;
+}
+
+.app-card-wrapper mat-card {
+  width: 128px;
+  height: 128px;
+  text-align: center;
+  padding: 0px;
+}
+
+.app-card-wrapper mat-card .app-icon {
+  width: 64px;
+}
+
+.app-title {
+  display: block;
+}
+
+.app-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-type-icon {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}

@@ -1,3 +1,4 @@
+import { LinuxAppService } from './service/linux-app.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -10,11 +11,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import { HomeComponent } from './component/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AppListComponent } from './component/app-list/app-list.component';
+import {MatCardModule} from '@angular/material/card';
+import { LinuxAppComponent } from './component/linux-app/linux-app.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    AppListComponent,
+    LinuxAppComponent
   ],
   imports: [
     MatButtonModule,
@@ -24,9 +32,14 @@ import { HomeComponent } from './component/home.component';
     MatToolbarModule,
     BrowserAnimationsModule,
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    AppRoutingModule,
+    MatCardModule,
+    FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    LinuxAppService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

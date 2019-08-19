@@ -1,0 +1,15 @@
+.h-scroll {
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.control {
+  padding: 10px;
+}

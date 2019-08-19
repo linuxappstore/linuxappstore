@@ -1,12 +1,14 @@
+import { LinuxApp } from './../data/dto/linux-app';
+import { LinuxAppService } from './../service/linux-app.service';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
 
   appTypes = [
     {
@@ -31,6 +33,9 @@ export class HomeComponent implements OnDestroy {
     }
   ]
 
+  apps: LinuxApp[] = [];
+  recentlyUpdated: LinuxApp[] = [];
+  recentlyAdded: LinuxApp[] = [];
 
   mobileQuery: MediaQueryList;
 
@@ -38,14 +43,51 @@ export class HomeComponent implements OnDestroy {
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
+    private service: LinuxAppService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
+  ngOnInit(): void {
+    this.service.getApps()
+    .subscribe(response => {
+      for(const item of response) {
+        this.apps.push(item);
+
+        if (this.apps.length >= 25) {
+          break;
+        }
+
+      }
+    });
+
+    this.service.getRecentlyAdded(25)
+    .subscribe(response => {
+      this.recentlyAdded = response;
+    });
+
+    this.service.getRecentlyUpdated(25)
+    .subscribe(response => {
+      this.recentlyUpdated = response;
+    });
+  }
+
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  getAllLabel(): string {
+    let label = 'All';
+
+    if (this.apps) {
+      label = `${label} (${this.apps.length})`;
+    }
+
+    return label;
   }
 
 }
