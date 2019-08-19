@@ -55,14 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.service.getApps()
     .subscribe(response => {
-      for(const item of response) {
-        this.apps.push(item);
-
-        if (this.apps.length >= 25) {
-          break;
-        }
-
-      }
+      this.apps = response;
     });
 
     this.service.getRecentlyAdded(25)

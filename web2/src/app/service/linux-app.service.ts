@@ -13,15 +13,15 @@ export class LinuxAppService {
   ) { }
 
   getApps(): Observable<LinuxApp[]> {
-    return this.http.get<LinuxApp[]>(`http://localhost:5000/api/apps?type=2`);
+    return this.http.get<LinuxApp[]>(`http://localhost:5000/api/apps`);
   }
 
   getRecentlyAdded(limit: number): Observable<LinuxApp[]> {
-    return this.http.get<LinuxApp[]>(`https://linuxappstore.io/api/recentlyAdded?limit=${limit}`);
+    return this.http.get<LinuxApp[]>(`http://localhost:5000/api/recentlyAdded?limit=${limit}`);
   }
 
   getRecentlyUpdated(limit: number): Observable<LinuxApp[]> {
-    return this.http.get<LinuxApp[]>(`https://linuxappstore.io/api/recentlyUpdated?limit=${limit}`);
+    return this.http.get<LinuxApp[]>(`http://localhost:5000/api/recentlyUpdated?limit=${limit}`);
   }
 
 }
