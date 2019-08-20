@@ -1,15 +1,15 @@
 <h1>{{title}}</h1>
 
 <div class="wrapper">
-    <span class="control" (click)="onPrevious()">
+    <button class="control" (click)="onPrevious()" style="position: absolute; left: 0;">
         <fa-icon [icon]="faChevronLeft"></fa-icon>
-      </span>
+    </button>
   <div class="h-scroll">
     <div *ngFor="let item of list">
         <app-linux-app [app]="item"></app-linux-app>
     </div>
   </div>
-  <span class="control" (click)="onNext()">
+  <button class="control" (click)="onNext()" style="position: absolute; right: 0;">
     <fa-icon [icon]="faChevronRight"></fa-icon>
-  </span>
+  </button>
 </div>
