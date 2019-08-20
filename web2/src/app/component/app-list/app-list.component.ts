@@ -1,5 +1,5 @@
 import { LinuxApp } from '../../data/dto/linux-app';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,6 +13,9 @@ const CAPACITY = 25;
 export class AppListComponent {
 
   @Input() title: string;
+
+  @ViewChild('horizontalScroll', { static: false })
+  horizontalScroll: ElementRef;
 
   private appList: LinuxApp[];
 
@@ -31,19 +34,28 @@ export class AppListComponent {
   position = 0;
 
   onPrevious() {
+
     if (this.position - 1 < 0) {
       this.position = 0;
     } else {
       this.position--;
     }
+
+    this.list = this.appList.slice(this.position, this.appList.length);
   }
 
   onNext() {
+    if (this.list.length === 1) {
+      return
+    }
+
     if ((this.position + 1) > CAPACITY) {
       this.position = CAPACITY;
     } else {
       this.position++;
     }
+
+    this.list = this.appList.slice(this.position, this.appList.length)
   }
 
 }
