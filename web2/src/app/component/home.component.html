@@ -25,9 +25,11 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <app-app-list title="{{getAllLabel()}}" [apps]="apps"></app-app-list>
-      <app-app-list title="Recently Added" [apps]="recentlyAdded"></app-app-list>
-      <app-app-list title="Recently Updated" [apps]="recentlyUpdated"></app-app-list>
+      <div class="content">
+          <app-app-list title="{{getAllLabel()}}" [apps]="apps"></app-app-list>
+          <app-app-list title="Recently Added" [apps]="recentlyAdded"></app-app-list>
+          <app-app-list title="Recently Updated" [apps]="recentlyUpdated"></app-app-list>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
