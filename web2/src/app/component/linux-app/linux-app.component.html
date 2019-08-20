@@ -1,13 +1,15 @@
 <div class="app-card-wrapper">
     <mat-card>
       <div class="app-content-wrapper">
-          <span class="app-title">
-              {{app.name}}
-          </span>
+            <img src="{{getIconTypeUrl(app.type)}}" class="app-type-icon" />
+
           <div style="flex-grow: 1;">
               <img src="{{getDesktopImage()}}" class="app-icon" />
           </div>
-          <img src="{{getIconTypeUrl(app.type)}}" class="app-type-icon" />
+
+          <span class="app-title">
+                {{app.name}}
+            </span>
       </div>
     </mat-card>
   </div>

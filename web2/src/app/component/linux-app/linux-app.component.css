@@ -15,7 +15,7 @@
   width: 64px;
   position: absolute;
   left: 32px;
-  top: 32px;
+  top: 16px;
 }
 
 .app-title {
@@ -24,6 +24,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 118px;
+  position: absolute;
+  bottom: 24px;
+  font-weight: 500;
 }
 
 .app-content-wrapper {
@@ -37,6 +40,6 @@
   width: 16px;
   height: 16px;
   position: absolute;
-  bottom: 5px;
-  left: 5px;
+  top: 5px;
+  right: 5px;
 }
