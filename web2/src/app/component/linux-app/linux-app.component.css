@@ -13,6 +13,9 @@
 
 .app-card-wrapper mat-card .app-icon {
   width: 64px;
+  position: absolute;
+  left: 32px;
+  top: 32px;
 }
 
 .app-title {
