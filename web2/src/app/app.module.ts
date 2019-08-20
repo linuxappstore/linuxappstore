@@ -16,13 +16,15 @@ import { AppListComponent } from './component/app-list/app-list.component';
 import {MatCardModule} from '@angular/material/card';
 import { LinuxAppComponent } from './component/linux-app/linux-app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TitlePipe } from './pipe/title.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AppListComponent,
-    LinuxAppComponent
+    LinuxAppComponent,
+    TitlePipe
   ],
   imports: [
     MatButtonModule,

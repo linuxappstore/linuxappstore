@@ -28,6 +28,7 @@
   position: absolute;
   bottom: 24px;
   font-weight: 500;
+  text-transform: capitalize;
 }
 
 .app-content-wrapper {
