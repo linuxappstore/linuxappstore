@@ -41,7 +41,14 @@ export class AppListComponent {
       this.position--;
     }
 
-    this.list = this.appList.slice(this.position, this.appList.length);
+    let remaining = this.appList.length - this.position;
+    let end = remaining;
+
+    if (remaining > CAPACITY) {
+      end = CAPACITY;
+    }
+
+    this.list = this.appList.slice(this.position, this.position + end);
   }
 
   onNext() {
@@ -55,7 +62,14 @@ export class AppListComponent {
       this.position++;
     }
 
-    this.list = this.appList.slice(this.position, this.appList.length)
+    let remaining = this.appList.length - this.position;
+    let end = remaining;
+
+    if (remaining > CAPACITY) {
+      end = CAPACITY;
+    }
+
+    this.list = this.appList.slice(this.position, this.position + end)
   }
 
 }
