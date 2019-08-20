@@ -1,7 +1,7 @@
 <h1>{{title}}</h1>
 
 <div class="wrapper">
-    <button class="control" (click)="onPrevious()" style="position: absolute; left: 0;">
+    <button *ngIf="position > 0" class="control" (click)="onPrevious()" style="position: absolute; left: 0;">
         <fa-icon [icon]="faChevronLeft"></fa-icon>
     </button>
   <div class="h-scroll">
@@ -9,7 +9,7 @@
         <app-linux-app [app]="item"></app-linux-app>
     </div>
   </div>
-  <button class="control" (click)="onNext()" style="position: absolute; right: 0;">
+  <button *ngIf="list.length > 1" class="control" (click)="onNext()" style="position: absolute; right: 0;">
     <fa-icon [icon]="faChevronRight"></fa-icon>
   </button>
 </div>
