@@ -17,6 +17,10 @@
 
 .app-title {
   display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 118px;
 }
 
 .app-content-wrapper {
