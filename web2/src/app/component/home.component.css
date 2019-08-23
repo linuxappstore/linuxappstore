@@ -38,3 +38,41 @@ img.sidebar-icon {
 .content {
   padding: 5px;
 }
+
+.search-wrapper {
+  position: relative;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.search-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.search-wrapper input {
+  padding: 8px 8px 8px 60px;
+  background: none;
+  color: currentColor;
+  border: 0;
+  font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    line-height: 1.1875em;
+}
+
+.search-wrapper input:focus {
+  outline: 0;
+}
+
+.search-wrapper input::placeholder {
+  color: rgba(255, 255, 255, 0.50);
+}
+
+.search-icon {
+  width: 72px;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  pointer-events: none;
+  justify-content: center;
+}

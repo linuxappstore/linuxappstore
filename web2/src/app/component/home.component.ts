@@ -2,6 +2,7 @@ import { LinuxApp } from './../data/dto/linux-app';
 import { LinuxAppService } from './../service/linux-app.service';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,8 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
+  readonly faSearch = faSearch;
 
   appTypes = [
     {
