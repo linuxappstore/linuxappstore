@@ -13,6 +13,8 @@ const CAPACITY = 25;
 export class AppListComponent {
 
   @Input() title: string;
+  @Input() searchable: boolean;
+  @Input() search: string;
 
   @ViewChild('horizontalScroll', { static: false })
   horizontalScroll: ElementRef;

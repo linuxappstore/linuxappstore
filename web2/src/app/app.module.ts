@@ -17,6 +17,7 @@ import {MatCardModule} from '@angular/material/card';
 import { LinuxAppComponent } from './component/linux-app/linux-app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TitlePipe } from './pipe/title.pipe';
+import { SearchPipe } from './pipe/search.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TitlePipe } from './pipe/title.pipe';
     HomeComponent,
     AppListComponent,
     LinuxAppComponent,
-    TitlePipe
+    TitlePipe,
+    SearchPipe
   ],
   imports: [
     MatButtonModule,

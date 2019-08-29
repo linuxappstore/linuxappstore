@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   readonly faSearch = faSearch;
 
+  search: string;
+
   appTypes = [
     {
       type: 0,

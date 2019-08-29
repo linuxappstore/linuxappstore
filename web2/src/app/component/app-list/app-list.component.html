@@ -5,9 +5,18 @@
         <fa-icon [icon]="faChevronLeft"></fa-icon>
     </button>
   <div class="h-scroll">
-    <div *ngFor="let item of list">
-        <app-linux-app [app]="item"></app-linux-app>
-    </div>
+    <ng-container *ngIf="searchable else nonSearchable">
+        <div *ngFor="let item of list | search: search">
+            <app-linux-app [app]="item"></app-linux-app>
+        </div>
+    </ng-container>
+
+    <ng-template #nonSearchable>
+        <div *ngFor="let item of list">
+            <app-linux-app [app]="item"></app-linux-app>
+        </div>
+    </ng-template>
+
   </div>
   <button *ngIf="list.length > 1" class="control" (click)="onNext()" style="position: absolute; right: 0;">
     <fa-icon [icon]="faChevronRight"></fa-icon>

@@ -11,7 +11,7 @@
         <fa-icon [icon]="faSearch"></fa-icon>
       </div>
 
-      <input placeholder="Search..." />
+      <input placeholder="Search..." ([ngModel])="search" />
     </div>
   </mat-toolbar>
 
@@ -35,9 +35,9 @@
 
     <mat-sidenav-content>
       <div class="content">
-          <app-app-list title="{{getAllLabel()}}" [apps]="apps"></app-app-list>
-          <app-app-list title="Recently Added" [apps]="recentlyAdded"></app-app-list>
-          <app-app-list title="Recently Updated" [apps]="recentlyUpdated"></app-app-list>
+          <app-app-list title="{{getAllLabel()}}" [apps]="apps" searchable="true" [search]="search"></app-app-list>
+          <app-app-list title="Recently Added" [apps]="recentlyAdded" searchable="false"></app-app-list>
+          <app-app-list title="Recently Updated" [apps]="recentlyUpdated" searchable="false"></app-app-list>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
